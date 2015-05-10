@@ -17,9 +17,9 @@
  */
 package org.fuin.srcgen4j.maven;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
@@ -29,11 +29,12 @@ import org.junit.Test;
 /**
  * Test for {@link EventStoreMojo}.
  */
-public class EventStoreStartMojoTest {
+public class EventStoreMojosTest {
 
     // CHECKSTYLE:OFF Test
 
-    private static final File TEST_DIR = new File("target/test-classes/test-project");
+    private static final File TEST_DIR = new File(
+            "target/test-classes/test-project");
 
     private Verifier verifier;
 
@@ -47,13 +48,26 @@ public class EventStoreStartMojoTest {
     public void testMojo() throws VerificationException {
 
         // PREPARE
+        final List<String> goals = new ArrayList<String>();
+        goals.add("clean");
+        goals.add("verify");
 
         // TEST
-        verifier.executeGoal("org.fuin.esmp:esmp-plugin:start");
+        verifier.executeGoals(goals);
 
         // VERIFY
         verifier.verifyErrorFreeLog();
-        assertThat(true).isTrue();
+
+        // download
+        verifier.verifyTextInLog("Dowloading archive:");
+        verifier.verifyTextInLog("Archive saved to:");
+        verifier.verifyTextInLog("Unzip event store to target directory:");
+
+        // start
+        verifier.verifyTextInLog("Event store process ID:");
+
+        // stop
+        verifier.verifyTextInLog("Event store successfully stopped");
 
     }
 
