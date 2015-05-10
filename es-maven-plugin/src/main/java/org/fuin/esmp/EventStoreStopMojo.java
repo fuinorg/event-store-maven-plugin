@@ -56,8 +56,7 @@ public final class EventStoreStopMojo extends AbstractEventStoreMojo {
         init();
         LOG.info("command={}", command);
 
-        final CommandLine cmdLine = new CommandLine(command);
-        cmdLine.addArgument(readPid());
+        final CommandLine cmdLine = createCommandLine();
         final Executor executor = new DefaultExecutor();
         try {
             final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -81,19 +80,30 @@ public final class EventStoreStopMojo extends AbstractEventStoreMojo {
 
     }
 
+    private CommandLine createCommandLine() throws MojoExecutionException {
+        final CommandLine cmdLine = new CommandLine(command);
+        if (OS.isFamilyWindows()) {
+            cmdLine.addArgument("/PID");
+            cmdLine.addArgument(readPid());
+            cmdLine.addArgument("/F");
+        } else if (OS.isFamilyUnix() || OS.isFamilyMac()) {
+            cmdLine.addArgument("-SIGKILL");
+            cmdLine.addArgument(readPid());
+        } else {
+            throw new MojoExecutionException(
+                    "Unknown OS - Cannot kill the process");
+        }
+        return cmdLine;
+    }
+
     private void init() throws MojoExecutionException {
 
         // Supply variables that are OS dependent
         if (OS.isFamilyWindows()) {
             if (command == null) {
-                // TODO Implement!
-                throw new UnsupportedOperationException("Not implemented yet!");
+                command = "taskkill";
             }
-        } else if (OS.isFamilyUnix()) {
-            if (command == null) {
-                command = "kill";
-            }
-        } else if (OS.isFamilyMac()) {
+        } else if (OS.isFamilyUnix() || OS.isFamilyMac()) {
             if (command == null) {
                 command = "kill";
             }

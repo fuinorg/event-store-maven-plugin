@@ -53,7 +53,7 @@ public class EventStoreStartMojoTest {
         testee.execute();        
         
         // VERIFY        
-        assertThat(true).isTrue();
+        assertThat(testee.getPidFile()).exists();
         
     }
     

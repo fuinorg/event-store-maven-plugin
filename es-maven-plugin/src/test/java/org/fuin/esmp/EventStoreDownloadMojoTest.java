@@ -19,8 +19,7 @@ package org.fuin.esmp;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.File;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.Test;
 
@@ -36,11 +35,20 @@ public class EventStoreDownloadMojoTest {
 
         // PREPARE
         final EventStoreDownloadMojo testee = new EventStoreDownloadMojo();
+        FileUtils.deleteQuietly(testee.getEventStoreDir());
+        if (testee.getEventStoreDir().exists()) {
+            throw new IllegalStateException("Couldn't delete: " + testee.getEventStoreDir());
+        }
+        FileUtils.deleteQuietly(testee.getDownloadFile());
+        if (testee.getDownloadFile().exists()) {
+            throw new IllegalStateException("Couldn't delete: " + testee.getDownloadFile());
+        }
 
         // TEST
         testee.execute();
 
         // VERIFY
+        assertThat(testee.getDownloadFile()).exists();
         assertThat(testee.getEventStoreDir()).exists();
 
     }

@@ -219,8 +219,14 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * Returns the full URL where the event store file to download is located.
      * 
      * @return Download archive URL.
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variable.
      */
-    public final String getDownloadUrl() {
+    public final String getDownloadUrl() throws MojoExecutionException {
+        if (downloadUrl == null) {
+            init();
+        }
         return downloadUrl;
     }
 
@@ -238,8 +244,14 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * Returns the base URl where the event store archives are located.
      * 
      * @return Base URL where archives are located.
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variable.
      */
-    public final String getBaseUrl() {
+    public final String getBaseUrl() throws MojoExecutionException {
+        if (baseUrl == null) {
+            init();
+        }
         return baseUrl;
     }
 
@@ -258,8 +270,14 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * "EventStore-OSS-Linux") without version and file extension.
      * 
      * @return the archiveName
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variable.
      */
-    public final String getArchiveName() {
+    public final String getArchiveName() throws MojoExecutionException {
+        if (archiveName == null) {
+            init();
+        }
         return archiveName;
     }
 
@@ -297,8 +315,14 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * Returns the file extension of the archive (Like "zip" or "tar.gz").
      * 
      * @return Archive file extension.
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variable.
      */
-    public final String getArchiveExtension() {
+    public final String getArchiveExtension() throws MojoExecutionException {
+        if (archiveExtension == null) {
+            init();
+        }
         return archiveExtension;
     }
 
@@ -317,8 +341,14 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * downloaded archive will be uncompressed into this directory.
      * 
      * @return Target directory.
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variable.
      */
-    public final File getEventStoreDir() {
+    public final File getEventStoreDir() throws MojoExecutionException {
+        if (eventStoreDir == null) {
+            init();
+        }
         return eventStoreDir;
     }
 

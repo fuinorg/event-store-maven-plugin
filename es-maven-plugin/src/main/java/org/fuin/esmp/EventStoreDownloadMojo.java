@@ -34,6 +34,9 @@ import java.util.zip.ZipFile;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -51,23 +54,36 @@ import org.slf4j.LoggerFactory;
  */
 public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
 
-    private static final int MB = 1024 * 1024;
-
     private static final Logger LOG = LoggerFactory
             .getLogger(EventStoreDownloadMojo.class);
 
-    private static final int BUFFER = MB;
+    private static final int MB = 1024 * 1024;
 
     @Override
     protected final void executeGoal() throws MojoExecutionException {
-        
+
         // Do nothing if already in place
         if (getEventStoreDir().exists()) {
-            LOG.info("Events store directory already exists: "  + getEventStoreDir());
+            LOG.info("Events store directory already exists: "
+                    + getEventStoreDir());
         } else {
             final File archive = downloadEventStoreArchive();
             unpack(archive);
         }
+    }
+
+    /**
+     * Returns the file where the result of the download is located.
+     * 
+     * @return File where loaded bytes are stored.
+     * 
+     * @throws MojoExecutionException
+     *             Error initializing the variables necessary to construct the
+     *             result.
+     */
+    public final File getDownloadFile() throws MojoExecutionException {
+        final String name = FilenameUtils.getName(getDownloadUrl());
+        return new File(getEventStoreDir().getParentFile(), name);
     }
 
     private URL createDownloadURL() throws MojoExecutionException {
@@ -80,11 +96,10 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
     }
 
     private File downloadEventStoreArchive() throws MojoExecutionException {
-        
+
         final URL url = createDownloadURL();
         try {
-            final String name = FilenameUtils.getName(url.getPath());
-            final File file = new File(getEventStoreDir().getParentFile(), name);
+            final File file = getDownloadFile();
             if (file.exists()) {
                 LOG.info("Archive already exists in target directory: " + file);
             } else {
@@ -98,7 +113,8 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                         super.afterRead(n);
                         called++;
                         if ((called % 1000) == 0) {
-                            LOG.info("{} - {} bytes", name, getCount());
+                            LOG.info("{} - {} bytes", file.getName(),
+                                    getCount());
                         }
                     }
                 };
@@ -116,12 +132,11 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
         }
     }
 
-    private void unpack(final File archive)
-            throws MojoExecutionException {
+    private void unpack(final File archive) throws MojoExecutionException {
 
         final File destDir = getEventStoreDir().getParentFile();
         LOG.info("Unzip event store to target directory: " + getEventStoreDir());
-        
+
         if (archive.getName().endsWith(".zip")) {
             unzip(archive, destDir);
         } else if (archive.getName().endsWith(".tar.gz")) {
@@ -130,7 +145,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
             throw new MojoExecutionException("Cannot unpack file: "
                     + archive.getName());
         }
-        
+
     }
 
     private void unzip(final File zipFile, final File destDir)
@@ -194,24 +209,25 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                 TarArchiveEntry entry;
                 while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
                     LOG.info("Extracting: " + entry.getName());
+                    final File file = new File(destDir, entry.getName());
                     if (entry.isDirectory()) {
-                        final File dir = new File(destDir, entry.getName());
-                        createIfNecessary(dir);
+                        createIfNecessary(file);
                     } else {
                         int count;
-                        final byte[] data = new byte[BUFFER];
-                        final FileOutputStream fos = new FileOutputStream(
-                                new File(destDir, entry.getName()));
+                        final byte[] data = new byte[MB];
+                        final FileOutputStream fos = new FileOutputStream(file);
                         final BufferedOutputStream dest = new BufferedOutputStream(
-                                fos, BUFFER);
+                                fos, MB);
                         try {
-                            while ((count = tarIn.read(data, 0, BUFFER)) != -1) {
+                            while ((count = tarIn.read(data, 0, MB)) != -1) {
                                 dest.write(data, 0, count);
                             }
                         } finally {
                             dest.close();
                         }
+                        entry.getMode();
                     }
+                    applyFileMode(file, new FileMode(entry.getMode()));
                 }
             } finally {
                 tarIn.close();
@@ -230,5 +246,40 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
             throw new IOException("Error creating directory '" + dir + "'!");
         }
     }
+
+    // CHECKSTYLE:OFF External code
+    // Inspired by:
+    // https://raw.githubusercontent.com/bluemel/RapidEnv/master/org.rapidbeans.rapidenv/src/org/rapidbeans/rapidenv/Unpacker.java
+    private void applyFileMode(final File file, final FileMode fileMode)
+            throws MojoExecutionException {
+
+        if (OS.isFamilyUnix() || OS.isFamilyMac()) {
+            final String smode = fileMode.toChmodStringFull();
+            final CommandLine cmdLine = new CommandLine("chmod");
+            cmdLine.addArgument(smode);
+            cmdLine.addArgument(file.getAbsolutePath());
+            final Executor executor = new DefaultExecutor();
+            try {
+                final int result = executor.execute(cmdLine);
+                if (result != 0) {
+                    throw new MojoExecutionException("Error # " + result
+                            + " while trying to set mode \"" + smode
+                            + "\" for file: " + file.getAbsolutePath());
+                }
+            } catch (final IOException ex) {
+                throw new MojoExecutionException(
+                        "Error while trying to set mode \"" + smode
+                                + "\" for file: " + file.getAbsolutePath(), ex);
+            }
+        } else {
+            file.setReadable(fileMode.isUr() || fileMode.isGr()
+                    || fileMode.isOr());
+            file.setWritable(fileMode.isUw() || fileMode.isGw()
+                    || fileMode.isOw());
+            file.setExecutable(fileMode.isUx() || fileMode.isGx()
+                    || fileMode.isOx());
+        }
+    }
+    // CHECKSTYLE:ON
 
 }
