@@ -3,7 +3,7 @@ This [Maven](https://maven.apache.org/) plugin provides goals that start/stop th
 
 [![Build Status](https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin/badge/icon)](https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin/)
 [![Coverage Status](https://coveralls.io/repos/fuinorg/event-store-maven-plugin/badge.svg)](https://coveralls.io/r/fuinorg/event-store-maven-plugin)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.fuin/event-store-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.fuin/event-store-maven-plugin/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.fuin.esmp/event-store-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.fuin.esmp/event-store-maven-plugin/)
 [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 [![Java Development Kit 1.7](https://img.shields.io/badge/JDK-1.7-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 
