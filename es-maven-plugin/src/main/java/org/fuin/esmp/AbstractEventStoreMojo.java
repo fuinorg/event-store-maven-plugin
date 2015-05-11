@@ -90,7 +90,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     /**
      * The target build directory.
      * 
-     * @parameter expression="${project.build.outputDirectory}"
+     * @parameter expression="${project.build.directory}"
      */
     private File targetDir = new File("./target");
 
@@ -366,7 +366,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     /**
      * Returns the target build directory.
      * 
-     * @return The output directory.
+     * @return The build directory.
      */
     public final File getTargetDir() {
         return targetDir;
@@ -376,7 +376,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * Sets the target build directory.
      * 
      * @param targetDir
-     *            The output directory to set
+     *            The build directory to set
      */
     public final void setTargetDir(final File targetDir) {
         this.targetDir = targetDir;
