@@ -44,7 +44,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     private static final Logger LOG = LoggerFactory
             .getLogger(EventStoreStartMojo.class);
 
-    private static final String UP_MSG = "HTTP server is up and listening";
+    private static final String UP_MSG = "Update Last Epoch";
 
     /**
      * Name of the executable or shell script to start the event store. Defaults
@@ -123,6 +123,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
             sleep(sleepMillis);
             final String str = bos.toString();
             if (str.contains(UP_MSG)) {
+                sleep(sleepMillis);
                 return asList(str);
             }
         }
