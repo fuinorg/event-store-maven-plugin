@@ -95,9 +95,11 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<!-- Necessary for Java 8 because it fails parsing the Maven @param tags 
 						<configuration>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
+						 -->
 					</execution>
 				</executions>
 			</plugin>
