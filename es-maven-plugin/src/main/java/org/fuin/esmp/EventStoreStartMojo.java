@@ -133,6 +133,8 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
                 return asList(str);
             }
         }
+        final List<String> messages = asList(bos.toString());
+        logError(messages);
         throw new MojoExecutionException(
                 "Waited too long for the server to start!");
 

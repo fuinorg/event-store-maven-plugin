@@ -485,6 +485,20 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
+     * Logs all lines in error mode.
+     * 
+     * @param messages
+     *            Lines to log.
+     */
+    protected final void logError(final List<String> messages) {
+        if (LOG.isErrorEnabled()) {
+            for (final String message : messages) {
+                LOG.error(message);
+            }
+        }
+    }
+    
+    /**
      * Executes the goal code.
      */
     protected abstract void executeGoal() throws MojoExecutionException;
