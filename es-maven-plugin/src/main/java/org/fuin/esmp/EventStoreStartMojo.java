@@ -44,8 +44,6 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     private static final Logger LOG = LoggerFactory
             .getLogger(EventStoreStartMojo.class);
 
-    private static final String UP_MSG = "Update Last Epoch";
-
     /**
      * Name of the executable or shell script to start the event store. Defaults
      * to the OS specific name for Windows, Linux and Mac OS families. Other OS
@@ -83,6 +81,14 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
      */
     private int sleepMillis = 500;
 
+    /**
+     * Message from the event store log to wait for.
+     * 
+     * @parameter expression="${up-message}" default-value="'admin' user account has been created"
+     */
+    private String upMsg = "'admin' user account has been created";
+    
+    
     @Override
     protected final void executeGoal() throws MojoExecutionException {
         init();
@@ -122,7 +128,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         while (wait++ < maxWaitCycles) {
             sleep(sleepMillis);
             final String str = bos.toString();
-            if (str.contains(UP_MSG)) {
+            if (str.contains(upMsg)) {
                 sleep(sleepMillis);
                 return asList(str);
             }
