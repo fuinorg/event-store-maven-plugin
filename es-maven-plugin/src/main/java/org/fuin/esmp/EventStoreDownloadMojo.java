@@ -42,6 +42,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.input.CountingInputStream;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.fuin.utils4j.Utils4J;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,31 +105,41 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                 LOG.info("Archive already exists in target directory: " + file);
             } else {
                 LOG.info("Dowloading archive: " + url);
-                final InputStream in = new CountingInputStream(url.openStream()) {
-
-                    private int called = 0;
-
-                    @Override
-                    protected final void afterRead(final int n) {
-                        super.afterRead(n);
-                        called++;
-                        if ((called % 1000) == 0) {
-                            LOG.info("{} - {} bytes", file.getName(),
-                                    getCount());
-                        }
-                    }
-                };
-                try {
-                    FileUtils.copyInputStreamToFile(in, file);
-                } finally {
-                    in.close();
+                // Cache the file locally in the temporary directory
+                final File tmpFile = new File(Utils4J.getTempDir(), file.getName());
+                if (!tmpFile.exists()) {
+                    download(url, tmpFile);
+                    LOG.info("Archive downloaded to: " + tmpFile);
                 }
-                LOG.info("Archive saved to: " + file);
+                FileUtils.copyFile(tmpFile, file);
+                LOG.info("Archive copied from '" + tmpFile + "' to:" + file);
             }
             return file;
         } catch (final IOException ex) {
             throw new MojoExecutionException(
                     "Error downloading event store archive: " + url, ex);
+        }
+    }
+
+    private void download(final URL url, final File file) throws IOException {
+        final InputStream in = new CountingInputStream(url.openStream()) {
+
+            private int called = 0;
+
+            @Override
+            protected final void afterRead(final int n) {
+                super.afterRead(n);
+                called++;
+                if ((called % 1000) == 0) {
+                    LOG.info("{} - {} bytes", file.getName(),
+                            getCount());
+                }
+            }
+        };
+        try {
+            FileUtils.copyInputStreamToFile(in, file);
+        } finally {
+            in.close();
         }
     }
 
