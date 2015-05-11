@@ -60,8 +60,8 @@ public class EventStoreMojosTest {
 
         // download
         verifier.verifyTextInLog("Dowloading archive:");
-        verifier.verifyTextInLog("Archive saved to:");
-        verifier.verifyTextInLog("Unzip event store to target directory:");
+        verifier.verifyTextInLog("Archive copied from ");
+        verifier.verifyTextInLog("Unpack event store to target directory:");
 
         // start
         verifier.verifyTextInLog("Event store process ID:");

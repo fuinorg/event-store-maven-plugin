@@ -145,7 +145,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
 
     private void unpack(final File archive) throws MojoExecutionException {
 
-        LOG.info("Unzip event store to target directory: " + getEventStoreDir());
+        LOG.info("Unpack event store to target directory: " + getEventStoreDir());
 
         if (archive.getName().endsWith(".zip")) {
             // All files are in the root of the ZIP file (not in a sub folder as with "tar.gz") 
