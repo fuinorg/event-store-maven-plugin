@@ -84,11 +84,11 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     /**
      * Message from the event store log to wait for.
      * 
-     * @parameter expression="${up-message}" default-value="'admin' user account has been created"
+     * @parameter expression="${up-message}"
+     *            default-value="'admin' user account has been created"
      */
     private String upMsg = "'admin' user account has been created";
-    
-    
+
     @Override
     protected final void executeGoal() throws MojoExecutionException {
         init();
@@ -110,7 +110,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
             executor.setStreamHandler(psh);
             executor.setWorkingDirectory(getEventStoreDir());
             executor.execute(cmdLine, resultHandler);
-            final List<String> messages = waitForHttpServer(bos);
+            final List<String> messages = waitForHttpServer(resultHandler, bos);
             logDebug(messages);
             final String pid = extractPid(messages);
             LOG.info("Event store process ID: {}", pid);
@@ -121,8 +121,9 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         }
     }
 
-    private List<String> waitForHttpServer(final ByteArrayOutputStream bos)
-            throws MojoExecutionException {
+    private List<String> waitForHttpServer(
+            final DefaultExecuteResultHandler resultHandler,
+            final ByteArrayOutputStream bos) throws MojoExecutionException {
 
         int wait = 0;
         while (wait++ < maxWaitCycles) {
@@ -136,7 +137,9 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         final List<String> messages = asList(bos.toString());
         logError(messages);
         throw new MojoExecutionException(
-                "Waited too long for the server to start!");
+                "Waited too long for the server to start (Exit code: "
+                        + resultHandler.getExitValue() + ")!",
+                resultHandler.getException());
 
     }
 
@@ -174,7 +177,8 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         // Supply variables that are OS dependent
         if (OS.isFamilyWindows()) {
             if (command == null) {
-                command = "EventStore.ClusterNode.Exe";
+                // For some strange reasons this does not work without the path...
+                command = getEventStoreDir() + File.separator + "EventStore.ClusterNode.exe";
             }
         } else if (OS.isFamilyUnix()) {
             if (command == null) {
