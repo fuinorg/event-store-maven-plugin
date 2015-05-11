@@ -113,6 +113,13 @@
                     <maxmem>256m</maxmem>
                     <aggregate>true</aggregate>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -122,6 +129,13 @@
                 <configuration>
                     <repoToken>${coveralls.esmp}</repoToken>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 		</plugins>
