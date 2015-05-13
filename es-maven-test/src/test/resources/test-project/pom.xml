@@ -47,12 +47,29 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.18.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
 				<groupId>org.fuin.esmp</groupId>
 				<artifactId>es-maven-plugin</artifactId>
 				<version>0.3.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>download</goal>
+							<goal>start</goal>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
