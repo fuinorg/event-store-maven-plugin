@@ -125,21 +125,32 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
             final DefaultExecuteResultHandler resultHandler,
             final ByteArrayOutputStream bos) throws MojoExecutionException {
 
+        // Wait for result
         int wait = 0;
-        while (wait++ < maxWaitCycles) {
+        while ((wait++ < maxWaitCycles) && !resultHandler.hasResult()
+                && !bos.toString().contains(upMsg)) {
             sleep(sleepMillis);
-            final String str = bos.toString();
-            if (str.contains(upMsg)) {
-                sleep(sleepMillis);
-                return asList(str);
-            }
         }
+
+        if (bos.toString().contains(upMsg)) {
+            // Success
+            return asList(bos.toString());
+        }
+
+        // Failure
         final List<String> messages = asList(bos.toString());
         logError(messages);
+
+        // Exception
+        if (resultHandler.hasResult()) {
+            throw new MojoExecutionException(
+                    "Error starting the server. Exit code="
+                            + resultHandler.getExitValue(),
+                    resultHandler.getException());
+        }
+        // Timeout
         throw new MojoExecutionException(
-                "Waited too long for the server to start (Exit code: "
-                        + resultHandler.getExitValue() + ")!",
-                resultHandler.getException());
+                "Waited too long for the server to start!");
 
     }
 
@@ -177,8 +188,10 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         // Supply variables that are OS dependent
         if (OS.isFamilyWindows()) {
             if (command == null) {
-                // For some strange reasons this does not work without the path...
-                command = getEventStoreDir() + File.separator + "EventStore.ClusterNode.exe";
+                // For some strange reasons this does not work without the
+                // path...
+                command = getEventStoreDir() + File.separator
+                        + "EventStore.ClusterNode.exe";
             }
         } else if (OS.isFamilyUnix()) {
             if (command == null) {
