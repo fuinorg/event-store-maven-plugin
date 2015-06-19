@@ -77,7 +77,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * 
      * @parameter expression="${archive-version}" default-value="3.0.3"
      */
-    private String archiveVersion = "3.0.3";
+    private String archiveVersion = "3.0.5";
 
     /**
      * File extension of the archive (Like "zip" or "tar.gz"). This is used to
