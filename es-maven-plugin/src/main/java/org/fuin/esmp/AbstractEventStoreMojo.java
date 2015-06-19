@@ -154,16 +154,16 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
                 if (archiveExtension == null) {
                     archiveExtension = "zip";
                 }
-            } else if (OS.isFamilyUnix()) {
+            } else if (OS.isFamilyMac()) {
                 if (archiveName == null) {
-                    archiveName = "EventStore-OSS-Linux";
+                    archiveName = "EventStore-OSS-Mac";
                 }
                 if (archiveExtension == null) {
                     archiveExtension = "tar.gz";
                 }
-            } else if (OS.isFamilyMac()) {
+            } else if (OS.isFamilyUnix()) {
                 if (archiveName == null) {
-                    archiveName = "EventStore-OSS-Mac";
+                    archiveName = "EventStore-OSS-Linux";
                 }
                 if (archiveExtension == null) {
                     archiveExtension = "tar.gz";
