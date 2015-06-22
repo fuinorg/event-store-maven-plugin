@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.fuin.esmp</groupId>
 		<artifactId>es-maven-parent</artifactId>
-		<version>${version}</version>
+		<version>0.3.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>es-maven-plugin</artifactId>
@@ -95,11 +95,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						<!-- Necessary for Java 8 because it fails parsing the Maven @param tags 
 						<configuration>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
-						 -->
 					</execution>
 				</executions>
 			</plugin>

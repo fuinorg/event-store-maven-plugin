@@ -12,7 +12,7 @@
 
 	<groupId>org.fuin.esmp</groupId>
 	<artifactId>es-maven-parent</artifactId>
-	<version>${version}</version>
+	<version>0.3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>es-maven-parent</name>
 	<description>This Maven plugin provides goals that starts/stops the event store [PARENT].</description>
@@ -27,10 +27,6 @@
 		<system>GitHub Issues</system>
 		<url>https://github.com/fuinorg/event-store-maven-plugin/issues</url>
 	</issueManagement>
-
-    <properties>
-        <version>0.3.0</version>
-    </properties>
 
 	<modules>
 		<module>es-maven-plugin</module>
