@@ -72,10 +72,10 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     private String archiveName;
 
     /**
-     * Version of the archive (Like "3.0.3"). This is used to construct an
+     * Version of the archive (Like "3.0.5"). This is used to construct an
      * archive URl for the OS where the build script is executed.
      * 
-     * @parameter expression="${archive-version}" default-value="3.0.3"
+     * @parameter expression="${archive-version}" default-value="3.0.5"
      */
     private String archiveVersion = "3.0.5";
 
@@ -293,7 +293,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
-     * Returns the version of the archive (Like "3.0.3").
+     * Returns the version of the archive (Like "3.0.5").
      * 
      * @return Event store version.
      */
@@ -302,7 +302,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
-     * Sets the version of the archive (Like "3.0.3").
+     * Sets the version of the archive (Like "3.0.5").
      * 
      * @param archiveVersion
      *            The event store version to set.
