@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A customizable source code generator plugin for maven.
+ * Stops the event store.
  * 
  * @goal stop
  * @phase post-integration-test
