@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Michael Schnell. All rights reserved.
+ * Copyright (C) 2015 Michael Schnell. All rights reserved. 
  * <http://www.fuin.org/>
  *
  * This library is free software; you can redistribute it and/or modify it under
@@ -23,14 +23,18 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.exec.*;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DaemonExecutor;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.commons.exec.OS;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A customizable source code generator plugin for maven.
- *
+ * Starts the event store.
+ * 
  * @goal start
  * @phase pre-integration-test
  * @requiresProject false
@@ -44,7 +48,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
      * Name of the executable or shell script to start the event store. Defaults
      * to the OS specific name for Windows, Linux and Mac OS families. Other OS
      * families will cause an error if this value is not set.
-     *
+     * 
      * @parameter expression="${command}"
      */
     private String command;
@@ -52,7 +56,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     /**
      * Command line arguments to pass to the executable. If no arguments are set
      * this defaults to <code>--mem-db=TRUE</code>.
-     *
+     * 
      * @parameter
      */
     private String[] arguments;
@@ -62,7 +66,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
      * this time passed, the build will fail. This means the mojo will wait
      * <code>maxWaitCycles</code> * <code>sleepMillis</code> milliseconds for
      * the server to finish it's startup process. Defaults to 20 times.
-     *
+     * 
      * @parameter expression="${max-wait-cycles}" default-value="20"
      */
     private int maxWaitCycles = 20;
@@ -72,21 +76,14 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
      * the mojo will wait <code>maxWaitCycles</code> * <code>sleepMillis</code>
      * milliseconds for the server to finish it's startup process. Defaults to
      * 500 ms.
-     *
+     * 
      * @parameter expression="${sleep-ms}" default-value="500"
      */
     private int sleepMillis = 500;
 
     /**
-     * Name of an executable or shell script which is executed after successful start the event store.
-     *
-     * @parameter expression="${postStartCommand}"
-     */
-    private String postStartCommand;
-
-    /**
      * Message from the event store log to wait for.
-     *
+     * 
      * @parameter expression="${up-message}"
      *            default-value="'admin' user account has been created"
      */
@@ -118,21 +115,6 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
             final String pid = extractPid(messages);
             LOG.info("Event store process ID: {}", pid);
             writePid(pid);
-
-            if (null != postStartCommand) {
-                try {
-                    final DefaultExecutor postCommandExecutor = new DefaultExecutor();
-                    final int retVal = postCommandExecutor.execute(new CommandLine(postStartCommand));
-                    if (0 == retVal) {
-                        LOG.info("Post-start command executed successfully");
-                    } else {
-                        LOG.warn("Post-start command returned result code {}", retVal);
-                    }
-                } catch (final IOException e) {
-                    LOG.error("Could not execute post-start command", e);
-                    new EventStoreStopMojo().executeGoal();
-                }
-            }
         } catch (final IOException ex) {
             throw new MojoExecutionException(
                     "Error executing the command line: " + cmdLine, ex);
@@ -247,7 +229,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     /**
      * Returns the name of the executable or shell script to start the event
      * store.
-     *
+     * 
      * @return Executable name.
      */
     public final String getCommand() {
@@ -256,7 +238,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
 
     /**
      * Sets the name of the executable or shell script to start the event store.
-     *
+     * 
      * @param command
      *            Executable name to set.
      */
@@ -266,7 +248,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
 
     /**
      * Returns the command line arguments to pass to the executable.
-     *
+     * 
      * @return Command line arguments.
      */
     public final String[] getArguments() {
@@ -275,7 +257,7 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
 
     /**
      * Sets the command line arguments to pass to the executable.
-     *
+     * 
      * @param arguments
      *            Arguments to set
      */
