@@ -17,26 +17,23 @@
  */
 package org.fuin.esmp;
 
+import org.apache.commons.exec.*;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.Executor;
-import org.apache.commons.exec.OS;
-import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Stops the event store.
  * 
- * @goal stop
- * @phase post-integration-test
- * @requiresProject false
  */
+@Mojo(name = "stop", defaultPhase = LifecyclePhase.POST_INTEGRATION_TEST, requiresProject = false)
 public final class EventStoreStopMojo extends AbstractEventStoreMojo {
 
     private static final Logger LOG = LoggerFactory
@@ -47,8 +44,8 @@ public final class EventStoreStopMojo extends AbstractEventStoreMojo {
      * to the OS specific name for Windows, Linux and Mac OS families. Other OS
      * families will cause an error if this value is not set.
      * 
-     * @parameter expression="${command}"
      */
+    @Parameter(name = "command")
     private String command;
 
     @Override
