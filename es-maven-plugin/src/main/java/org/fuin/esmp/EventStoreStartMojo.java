@@ -99,6 +99,8 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         if (OS.isFamilyUnix() || OS.isFamilyMac()) {
             final File execFile = new File(getEventStoreDir(), command);
             execFile.setExecutable(true);
+            final boolean ok = execFile.setExecutable(true);
+            LOG.debug("Made file '" + execFile + "' executable: " + ok);
         }
 
         final CommandLine cmdLine = createCommandLine();
