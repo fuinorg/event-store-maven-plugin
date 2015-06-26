@@ -18,13 +18,11 @@
 package org.fuin.esmp;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -60,12 +58,6 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
             throw new MojoExecutionException("postStartCommand not set");
         }
         LOG.info("postStartCommand={}", postStartCommand);
-
-        if (OS.isFamilyUnix() || OS.isFamilyMac()) {
-            final File execFile = new File(getEventStoreDir(), postStartCommand);
-            final boolean ok = execFile.setExecutable(true);
-            LOG.debug("Made file '" + execFile + "' executable: " + ok);
-        }
 
         final CommandLine cmdLine = new CommandLine(postStartCommand);
         final DefaultExecutor executor = new DefaultExecutor();
