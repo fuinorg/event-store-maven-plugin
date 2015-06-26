@@ -29,6 +29,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.impl.StaticLoggerBinder;
@@ -48,58 +49,50 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * always overrides the <code>base-url</code>, <code>archive-name</code>,
      * <code>archive-version</code> and <code>archive-extension</code>
      * parameters.
-     * 
-     * @parameter expression="${download-url}"
      */
+    @Parameter(name = "download-url")
     private String downloadUrl;
 
     /**
      * Base URl where the event store archives are located. This is used to
      * construct an archive URl for the OS where the build script is executed.
-     * 
-     * @parameter expression="${base-url}"
-     *            default-value="http://download.geteventstore.com/binaries/"
      */
+    @Parameter(name = "base-url", defaultValue = "http://download.geteventstore.com/binaries/")
     private String baseUrl = "http://download.geteventstore.com/binaries/";
 
     /**
      * Name of the archive (Like "EventStore-OSS-Win" or "EventStore-OSS-Linux")
      * without version and file extension. This is used to construct an archive
      * URl for the OS where the build script is executed.
-     * 
-     * @parameter expression="${archive-name}"
      */
+    @Parameter(name = "archive-name")
     private String archiveName;
 
     /**
      * Version of the archive (Like "3.0.5"). This is used to construct an
      * archive URl for the OS where the build script is executed.
-     * 
-     * @parameter expression="${archive-version}" default-value="3.0.5"
      */
+    @Parameter(name = "archive-version", defaultValue = "3.0.5")
     private String archiveVersion = "3.0.5";
 
     /**
      * File extension of the archive (Like "zip" or "tar.gz"). This is used to
      * construct an archive URl for the OS where the build script is executed.
-     * 
-     * @parameter expression="${archive-extension}"
      */
+    @Parameter(name = "archive-extension")
     private String archiveExtension;
 
     /**
      * The target build directory.
-     * 
-     * @parameter expression="${project.build.directory}"
      */
+    @Parameter(name = "target-dir", property = "project.build.directory")
     private File targetDir = new File("./target");
 
     /**
      * Directory where the event store should be installed. The downloaded
      * archive will be uncompressed into this directory.
-     * 
-     * @parameter expression="${event-store-dir}"
      */
+    @Parameter(name = "event-store-dir")
     private File eventStoreDir;
 
     /**
