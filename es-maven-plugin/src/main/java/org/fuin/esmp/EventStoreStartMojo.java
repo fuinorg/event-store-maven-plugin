@@ -17,28 +17,25 @@
  */
 package org.fuin.esmp;
 
+import org.apache.commons.exec.*;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DaemonExecutor;
-import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.OS;
-import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Starts the event store.
  * 
- * @goal start
- * @phase pre-integration-test
- * @requiresProject false
  */
+@Mojo(name = "start", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST, requiresProject = false)
 public final class EventStoreStartMojo extends AbstractEventStoreMojo {
 
     private static final Logger LOG = LoggerFactory
@@ -49,45 +46,44 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
      * to the OS specific name for Windows, Linux and Mac OS families. Other OS
      * families will cause an error if this value is not set.
      * 
-     * @parameter expression="${command}"
      */
+    @Parameter(name = "command")
     private String command;
 
     /**
      * Command line arguments to pass to the executable. If no arguments are set
      * this defaults to <code>--mem-db=TRUE</code>.
      * 
-     * @parameter
      */
+    @Parameter(name = "arguments")
     private String[] arguments;
 
     /**
      * Number of times to wait for the server until it's up and running. After
      * this time passed, the build will fail. This means the mojo will wait
-     * <code>maxWaitCycles</code> * <code>sleepMillis</code> milliseconds for
+     * <code>maxWaitCycles</code> * <code>sleepMs</code> milliseconds for
      * the server to finish it's startup process. Defaults to 20 times.
      * 
-     * @parameter expression="${max-wait-cycles}" default-value="20"
      */
+    @Parameter(name = "max-wait-cycles", defaultValue = "20")
     private int maxWaitCycles = 20;
 
     /**
      * Number of milliseconds to sleep while waiting for the server. This means
-     * the mojo will wait <code>maxWaitCycles</code> * <code>sleepMillis</code>
+     * the mojo will wait <code>maxWaitCycles</code> * <code>sleepMs</code>
      * milliseconds for the server to finish it's startup process. Defaults to
      * 500 ms.
      * 
-     * @parameter expression="${sleep-ms}" default-value="500"
      */
-    private int sleepMillis = 500;
+    @Parameter(name = "sleep-ms", defaultValue = "500")
+    private int sleepMs = 500;
 
     /**
      * Message from the event store log to wait for.
      * 
-     * @parameter expression="${up-message}"
-     *            default-value="'admin' user account has been created"
      */
-    private String upMsg = "'admin' user account has been created";
+    @Parameter(name = "up-message", defaultValue = "'admin' user account has been created")
+    private String upMessage = "'admin' user account has been created";
 
     @Override
     protected final void executeGoal() throws MojoExecutionException {
@@ -128,11 +124,11 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
         // Wait for result
         int wait = 0;
         while ((wait++ < maxWaitCycles) && !resultHandler.hasResult()
-                && !bos.toString().contains(upMsg)) {
-            sleep(sleepMillis);
+                && !bos.toString().contains(upMessage)) {
+            sleep(sleepMs);
         }
 
-        if (bos.toString().contains(upMsg)) {
+        if (bos.toString().contains(upMessage)) {
             // Success
             return asList(bos.toString());
         }

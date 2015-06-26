@@ -17,26 +17,27 @@
  */
 package org.fuin.esmp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Executes a script after starting the event store.
  *
- * @goal post-start
- * @phase pre-integration-test
- * @requiresProject false
  */
+@Mojo(name = "post-start", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST, requiresProject = false)
 public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
 
     private static final Logger LOG = LoggerFactory
@@ -46,8 +47,8 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
      * Name of an executable or shell script which is executed after successful
      * start the event store.
      *
-     * @parameter expression="${postStartCommand}"
      */
+    @Parameter(name = "postStartCommand", required = true)
     private String postStartCommand;
     
     /** Messages from last execution. */
