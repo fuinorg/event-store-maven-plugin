@@ -48,7 +48,7 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
      * start the event store.
      *
      */
-    @Parameter(name = "postStartCommand", required = true)
+    @Parameter(name = "post-start-command", required = true)
     private String postStartCommand;
 
     /** Messages from last execution. */
@@ -63,7 +63,8 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
 
         if (OS.isFamilyUnix() || OS.isFamilyMac()) {
             final File execFile = new File(getEventStoreDir(), postStartCommand);
-            execFile.setExecutable(true);
+            final boolean ok = execFile.setExecutable(true);
+            LOG.debug("Made file '" + execFile + "' executable: " + ok);
         }
 
         final CommandLine cmdLine = new CommandLine(postStartCommand);
