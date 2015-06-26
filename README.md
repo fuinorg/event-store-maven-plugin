@@ -24,7 +24,7 @@ Snapshots can be found on the [OSS Sonatype Snapshots Repository](http://oss.son
 Add the following to your .m2/settings.xml to enable snapshots in your Maven build:
 
 ```xml
-<repository>
+<pluginRepository>
     <id>sonatype.oss.snapshots</id>
     <name>Sonatype OSS Snapshot Repository</name>
     <url>http://oss.sonatype.org/content/repositories/snapshots</url>
@@ -34,5 +34,5 @@ Add the following to your .m2/settings.xml to enable snapshots in your Maven bui
     <snapshots>
         <enabled>true</enabled>
     </snapshots>
-</repository>
+</pluginRepository>
 ```
