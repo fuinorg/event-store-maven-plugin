@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Downloads the eventstore archive and unpacks it into a defined directory.
- * 
  */
 @Mojo(name = "download", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST, requiresProject = false)
 public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
