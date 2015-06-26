@@ -33,11 +33,11 @@ import org.junit.Test;
 public class EventStorePostStartMojoTest {
 
     // CHECKSTYLE:OFF Test
-    
+
     @Ignore("Fix test!")
     @Test
     public void testExecute() throws MojoExecutionException, IOException {
-        
+
         // PREPARE
         final EventStorePostStartMojo testee = new EventStorePostStartMojo();
         final File dir = new File("./src/test").getCanonicalFile();
@@ -48,15 +48,15 @@ public class EventStorePostStartMojoTest {
             // TODO Fails with error #13 Not authorized
             testee.setPostStartCommand(dir + File.separator + "echotest.sh");
         }
-        
+
         // TEST
-        testee.execute();        
-        
-        // VERIFY        
+        testee.execute();
+
+        // VERIFY
         assertThat(testee.getMessages()).contains("bla");
-        
+
     }
-    
+
     // CHECKSTYLE:ON
-    
+
 }

@@ -30,33 +30,33 @@ import org.junit.Test;
 public class EventStoreStartMojoTest {
 
     // CHECKSTYLE:OFF Test
-    
+
     @Before
     public void setup() throws MojoExecutionException {
         final EventStoreDownloadMojo testee = new EventStoreDownloadMojo();
         testee.execute();
     }
-    
+
     @After
     public void tearDown() throws MojoExecutionException {
         final EventStoreStopMojo testee = new EventStoreStopMojo();
         testee.execute();
     }
-    
+
     @Test
     public void testExecute() throws MojoExecutionException {
-        
+
         // PREPARE
         final EventStoreStartMojo testee = new EventStoreStartMojo();
-        
+
         // TEST
-        testee.execute();        
-        
-        // VERIFY        
+        testee.execute();
+
+        // VERIFY
         assertThat(testee.getPidFile()).exists();
-        
+
     }
-    
+
     // CHECKSTYLE:ON
-    
+
 }

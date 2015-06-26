@@ -17,19 +17,23 @@
  */
 package org.fuin.esmp;
 
-import org.apache.commons.exec.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DaemonExecutor;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.commons.exec.OS;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Starts the event store.
@@ -61,8 +65,8 @@ public final class EventStoreStartMojo extends AbstractEventStoreMojo {
     /**
      * Number of times to wait for the server until it's up and running. After
      * this time passed, the build will fail. This means the mojo will wait
-     * <code>maxWaitCycles</code> * <code>sleepMs</code> milliseconds for
-     * the server to finish it's startup process. Defaults to 20 times.
+     * <code>maxWaitCycles</code> * <code>sleepMs</code> milliseconds for the
+     * server to finish it's startup process. Defaults to 20 times.
      * 
      */
     @Parameter(name = "max-wait-cycles", defaultValue = "20")

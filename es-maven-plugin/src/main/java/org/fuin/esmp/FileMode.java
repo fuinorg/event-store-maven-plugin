@@ -4,9 +4,10 @@ package org.fuin.esmp;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Copyright (C) 2011 Martin Bluemel 
- * Original source can be found here:
- * https://raw.githubusercontent.com/bluemel/RapidEnv/master/org.rapidbeans.rapidenv/src/org/rapidbeans/rapidenv/FileMode.java
+ * Copyright (C) 2011 Martin Bluemel Original source can be found here:
+ * https://raw
+ * .githubusercontent.com/bluemel/RapidEnv/master/org.rapidbeans.rapidenv
+ * /src/org/rapidbeans/rapidenv/FileMode.java
  */
 public class FileMode {
 
@@ -39,8 +40,11 @@ public class FileMode {
     public FileMode(int mode) {
 
         // ORIGINAL CODE - Removed dependency to "StringHelper" class
-        // final String smodeBin = StringHelper.fillUp(Integer.toBinaryString(mode), 16, '0', FillMode.left);
-        final String smodeBin = StringUtils.leftPad(Integer.toBinaryString(mode), 16, "0");
+        // final String smodeBin =
+        // StringHelper.fillUp(Integer.toBinaryString(mode), 16, '0',
+        // FillMode.left);
+        final String smodeBin = StringUtils.leftPad(
+                Integer.toBinaryString(mode), 16, "0");
         // System.out.println("@@@ smodeBin = " + smodeBin);
         if (mode >= 65536) {
             throw new AssertionError("Unexpected file mode: "

@@ -17,6 +17,13 @@
  */
 package org.fuin.esmp;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.exec.OS;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -25,13 +32,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.impl.StaticLoggerBinder;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Base class for all mojos.
@@ -497,10 +497,12 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
             }
         }
     }
-    
+
     /**
      * Executes the goal code.
-     * @throws MojoExecutionException if goal execution failed
+     * 
+     * @throws MojoExecutionException
+     *             if goal execution failed
      */
     protected abstract void executeGoal() throws MojoExecutionException;
 

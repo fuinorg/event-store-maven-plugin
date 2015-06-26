@@ -20,7 +20,6 @@ package org.fuin.esmp;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,30 +29,29 @@ import org.junit.Test;
 public class EventStoreStopMojoTest {
 
     // CHECKSTYLE:OFF Test
-    
+
     @Before
     public void setup() throws MojoExecutionException {
         final EventStoreDownloadMojo testee = new EventStoreDownloadMojo();
         testee.execute();
         final EventStoreStartMojo startMojo = new EventStoreStartMojo();
-        startMojo.execute();        
+        startMojo.execute();
     }
-    
-    
+
     @Test
     public void testExecute() throws MojoExecutionException {
-        
+
         // PREPARE
         final EventStoreStopMojo testee = new EventStoreStopMojo();
-        
+
         // TEST
-        testee.execute();        
-        
-        // VERIFY        
+        testee.execute();
+
+        // VERIFY
         assertThat(testee.getPidFile()).doesNotExist();
-        
+
     }
-    
+
     // CHECKSTYLE:ON
-    
+
 }

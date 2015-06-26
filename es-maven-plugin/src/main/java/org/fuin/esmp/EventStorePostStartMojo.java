@@ -17,6 +17,11 @@
  */
 package org.fuin.esmp;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.OS;
@@ -27,11 +32,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Executes a script after starting the event store.
@@ -50,7 +50,7 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
      */
     @Parameter(name = "postStartCommand", required = true)
     private String postStartCommand;
-    
+
     /** Messages from last execution. */
     private List<String> messages;
 
@@ -74,7 +74,7 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
             executor.setStreamHandler(psh);
             executor.setWorkingDirectory(getEventStoreDir());
             final int exitCode = executor.execute(cmdLine);
-            messages = asList(bos.toString());            
+            messages = asList(bos.toString());
             if (exitCode == 0) {
                 LOG.info("Post-start command executed successfully");
                 logDebug(messages);
@@ -109,7 +109,7 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
     public final void setPostStartCommand(final String postStartCommand) {
         this.postStartCommand = postStartCommand;
     }
-    
+
     /**
      * Returns the messages from the last execution.
      * 

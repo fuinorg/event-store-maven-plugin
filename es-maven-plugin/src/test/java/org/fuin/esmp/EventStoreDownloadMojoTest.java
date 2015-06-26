@@ -37,11 +37,13 @@ public class EventStoreDownloadMojoTest {
         final EventStoreDownloadMojo testee = new EventStoreDownloadMojo();
         FileUtils.deleteQuietly(testee.getEventStoreDir());
         if (testee.getEventStoreDir().exists()) {
-            throw new IllegalStateException("Couldn't delete: " + testee.getEventStoreDir());
+            throw new IllegalStateException("Couldn't delete: "
+                    + testee.getEventStoreDir());
         }
         FileUtils.deleteQuietly(testee.getDownloadFile());
         if (testee.getDownloadFile().exists()) {
-            throw new IllegalStateException("Couldn't delete: " + testee.getDownloadFile());
+            throw new IllegalStateException("Couldn't delete: "
+                    + testee.getDownloadFile());
         }
 
         // TEST

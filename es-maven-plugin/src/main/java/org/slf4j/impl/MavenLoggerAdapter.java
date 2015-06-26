@@ -337,8 +337,10 @@ public final class MavenLoggerAdapter extends MarkerIgnoringBase {
      *            Second argument
      * @return The message
      */
-    private String format(final String format, final Object arg1, final Object arg2) {
-        final FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+    private String format(final String format, final Object arg1,
+            final Object arg2) {
+        final FormattingTuple tuple = MessageFormatter.format(format, arg1,
+                arg2);
         return tuple.getMessage();
     }
 

@@ -17,6 +17,20 @@
  */
 package org.fuin.esmp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -33,13 +47,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.fuin.utils4j.Utils4J;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  * Downloads the eventstore archive and unpacks it into a defined directory.
@@ -99,7 +106,8 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
             } else {
                 LOG.info("Dowloading archive: " + url);
                 // Cache the file locally in the temporary directory
-                final File tmpFile = new File(Utils4J.getTempDir(), file.getName());
+                final File tmpFile = new File(Utils4J.getTempDir(),
+                        file.getName());
                 if (!tmpFile.exists()) {
                     download(url, tmpFile);
                     LOG.info("Archive downloaded to: " + tmpFile);
@@ -124,8 +132,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                 super.afterRead(n);
                 called++;
                 if ((called % 1000) == 0) {
-                    LOG.info("{} - {} bytes", file.getName(),
-                            getCount());
+                    LOG.info("{} - {} bytes", file.getName(), getCount());
                 }
             }
         };
@@ -138,10 +145,12 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
 
     private void unpack(final File archive) throws MojoExecutionException {
 
-        LOG.info("Unpack event store to target directory: " + getEventStoreDir());
+        LOG.info("Unpack event store to target directory: "
+                + getEventStoreDir());
 
         if (archive.getName().endsWith(".zip")) {
-            // All files are in the root of the ZIP file (not in a sub folder as with "tar.gz") 
+            // All files are in the root of the ZIP file (not in a sub folder as
+            // with "tar.gz")
             final File destDir = getEventStoreDir();
             unzip(archive, destDir);
         } else if (archive.getName().endsWith(".tar.gz")) {
