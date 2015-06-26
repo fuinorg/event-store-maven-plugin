@@ -24,7 +24,6 @@ import java.io.IOException;
 
 import org.apache.commons.exec.OS;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -34,7 +33,6 @@ public class EventStorePostStartMojoTest {
 
     // CHECKSTYLE:OFF Test
 
-    @Ignore("Fix test!")
     @Test
     public void testExecute() throws MojoExecutionException, IOException {
 
@@ -45,7 +43,6 @@ public class EventStorePostStartMojoTest {
         if (OS.isFamilyWindows()) {
             testee.setPostStartCommand(dir + File.separator + "echotest.bat");
         } else {
-            // TODO Fails with error #13 Not authorized
             testee.setPostStartCommand(dir + File.separator + "echotest.sh");
         }
 
@@ -53,7 +50,7 @@ public class EventStorePostStartMojoTest {
         testee.execute();
 
         // VERIFY
-        assertThat(testee.getMessages()).contains("bla");
+        assertThat(testee.getMessages()).contains("Hello world!");
 
     }
 
