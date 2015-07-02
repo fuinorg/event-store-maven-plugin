@@ -46,7 +46,7 @@ public final class EventStorePostStartMojo extends AbstractEventStoreMojo {
      * start the event store.
      *
      */
-    @Parameter(name = "post-start-command", required = true)
+    @Parameter(name = "post-start-command")
     private String postStartCommand;
 
     /** Messages from last execution. */
