@@ -72,8 +72,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * archive URl for the OS where the build script is executed. If it's not set,
      * the latest version will be used by default.
      */
-    @Parameter(name = "archive-version")
-    private String archiveVersion;
+    @Parameter(name = "archive-version", defaultValue = "3.8.1")
+    private String archiveVersion = "3.8.1";
 
     /**
      * File extension of the archive (Like "zip" or "tar.gz"). This is used to
@@ -156,7 +156,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
             } else if (OS.isFamilyUnix()) {
                 if (archiveName == null) {
                     if (isUbuntuVersion()) {
-                        archiveName = "EventStore-OSS-Ubuntu";
+                        archiveName = "EventStore-OSS-Ubuntu-14.04";
                     } else {
                         archiveName = "EventStore-OSS-Linux";
                     }
