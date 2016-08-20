@@ -17,7 +17,7 @@
  */
 package org.fuin.esmp;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.Before;
