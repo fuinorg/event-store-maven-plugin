@@ -1,0 +1,312 @@
+[
+	{
+		"os": "ubuntu-14.04",
+		"currentVersion": "3.8.1",
+		"downloads": [
+			{
+				"version": "3.8.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.1.tar.gz"
+			},
+			{
+				"version": "3.8.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.0.tar.gz"
+			},
+			{
+				"version": "3.7.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.7.0.tar.gz"
+			},
+			{
+				"version": "3.6.3",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.3.tar.gz"
+			},
+			{
+				"version": "3.6.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.2.tar.gz"
+			},
+			{
+				"version": "3.6.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.1.tar.gz"
+			},
+			{
+				"version": "3.6.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.0.tar.gz"
+			},
+			{
+				"version": "3.5.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.5.0.tar.gz"
+			},
+			{
+				"version": "3.4.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.4.0.tar.gz"
+			},
+			{
+				"version": "3.3.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.1.tar.gz"
+			},
+			{
+				"version": "3.3.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz"
+			},
+			{
+				"version": "3.2.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz"
+			},
+			{
+				"version": "3.2.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz"
+			},
+			{
+				"version": "3.1.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz"
+			},
+			{
+				"version": "3.0.5",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz"
+			},
+			{
+				"version": "3.0.4",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.4.tar.gz"
+			},
+			{
+				"version": "3.0.3",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz"
+			},
+			{
+				"version": "3.0.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz"
+			},
+			{
+				"version": "3.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz"
+			},
+			{
+				"version": "3.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz"
+			},
+			{
+				"version": "3.0.0-rc9",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0-rc9.tar.gz"
+			},
+			{
+				"version": "3.0.0-rc2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0-rc2.tar.gz"
+			},
+			{
+				"version": "2.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v2.0.1.tar.gz"
+			},
+			{
+				"version": "2.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v2.0.0.tar.gz"
+			},
+			{
+				"version": "1.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v1.0.1.tar.gz"
+			},
+			{
+				"version": "1.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v1.0.0.tar.gz"
+			}
+		]
+	},
+	{
+		"os": "osx-10.10",
+		"currentVersion": "3.8.1",
+		"downloads": [
+			{
+				"version": "3.8.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.8.1.tar.gz"
+			},
+			{
+				"version": "3.8.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.8.0.tar.gz"
+			},
+			{
+				"version": "3.7.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.7.0.tar.gz"
+			},
+			{
+				"version": "3.6.3",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.3.tar.gz"
+			},
+			{
+				"version": "3.6.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.2.tar.gz"
+			},
+			{
+				"version": "3.6.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.1.tar.gz"
+			},
+			{
+				"version": "3.6.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.0.tar.gz"
+			},
+			{
+				"version": "3.5.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.5.0.tar.gz"
+			},
+			{
+				"version": "3.4.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.4.0.tar.gz"
+			},
+			{
+				"version": "3.3.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.3.1.tar.gz"
+			},
+			{
+				"version": "3.3.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.3.0.tar.gz"
+			},
+			{
+				"version": "3.2.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.2.2.tar.gz"
+			},
+			{
+				"version": "3.2.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.2.0.tar.gz"
+			},
+			{
+				"version": "3.1.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.1.0.tar.gz"
+			},
+			{
+				"version": "3.0.5",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.5.tar.gz"
+			},
+			{
+				"version": "3.0.4",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.4.tar.gz"
+			},
+			{
+				"version": "3.0.3",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.3.tar.gz"
+			},
+			{
+				"version": "3.0.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.2.tar.gz"
+			},
+			{
+				"version": "3.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.1.tar.gz"
+			},
+			{
+				"version": "3.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0.tar.gz"
+			},
+			{
+				"version": "3.0.0-rc9",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0-rc9.tar.gz"
+			},
+			{
+				"version": "3.0.0-rc2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0-rc2.tar.gz"
+			}
+		]
+	},
+	{
+		"os": "win",
+		"currentVersion": "3.8.1",
+		"downloads": [
+			{
+				"version": "3.8.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.1.zip"
+			},
+			{
+				"version": "3.8.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.0.zip"
+			},
+			{
+				"version": "3.7.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.7.0.zip"
+			},
+			{
+				"version": "3.6.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.2.zip"
+			},
+			{
+				"version": "3.6.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.1.zip"
+			},
+			{
+				"version": "3.6.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.0.zip"
+			},
+			{
+				"version": "3.5.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.5.0.zip"
+			},
+			{
+				"version": "3.4.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.4.0.zip"
+			},
+			{
+				"version": "3.3.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.1.zip"
+			},
+			{
+				"version": "3.3.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
+			},
+			{
+				"version": "3.2.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
+			},
+			{
+				"version": "3.2.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip"
+			},
+			{
+				"version": "3.1.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip"
+			},
+			{
+				"version": "3.0.5",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip"
+			},
+			{
+				"version": "3.0.4",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.4.zip"
+			},
+			{
+				"version": "3.0.3",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip"
+			},
+			{
+				"version": "3.0.2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip"
+			},
+			{
+				"version": "3.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip"
+			},
+			{
+				"version": "3.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip"
+			},
+			{
+				"version": "3.0.0-rc9",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0-rc9.zip"
+			},
+			{
+				"version": "3.0.0-rc2",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0-rc2.zip"
+			},
+			{
+				"version": "2.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v2.0.1.zip"
+			},
+			{
+				"version": "2.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v2.0.0.zip"
+			},
+			{
+				"version": "1.0.1",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v1.0.1.zip"
+			},
+			{
+				"version": "1.0.0",
+				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v1.0.0.zip"
+			}
+		]
+	}
+]
