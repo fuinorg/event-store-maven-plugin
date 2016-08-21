@@ -21,7 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
+import org.fuin.utils4j.Utils4J;
 import org.junit.Test;
 
 /**
@@ -31,7 +33,26 @@ import org.junit.Test;
 public class DownloadsTest {
 
     @Test
-    public void testParse() throws IOException {
+    public void testDownload() throws IOException {
+
+        // PREPARE
+        final Downloads testee = new Downloads(
+                new File(Utils4J.getTempDir(), "event-store-versions-" + UUID.randomUUID() + ".json"));
+
+        // TEST
+        testee.parse();
+
+        // VERIFY
+        assertThat(testee.getOsList()).containsExactlyInAnyOrder(new DownloadOS("ubuntu-14.04"),
+                new DownloadOS("osx-10.10"), new DownloadOS("win"));
+        final DownloadOS ubuntu = testee.findOS("ubuntu-14.04");
+        assertThat(ubuntu.getOS()).isEqualTo("ubuntu-14.04");
+        assertThat(ubuntu.getCurrentVersion()).isNotNull();
+
+    }
+
+    @Test
+    public void testLocal() throws IOException {
 
         // PREPARE
         final Downloads testee = new Downloads(new File("./target/test-classes/test-download.json"));

@@ -90,6 +90,15 @@ public final class DownloadOS implements Comparable<DownloadOS> {
     }
 
     /**
+     * Returns the latest version.
+     * 
+     * @return Latest version - or <code>null</code> if there are no versions.
+     */
+    public final DownloadVersion getLatestVersion() {
+        return findVersion(currentVersion);
+    }
+    
+    /**
      * Returns the version with a given number.
      * 
      * @param number

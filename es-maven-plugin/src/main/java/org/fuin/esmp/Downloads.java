@@ -32,13 +32,17 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Parses all available versions and provides easy access to this information.
  */
 public final class Downloads {
 
-    private static final String VERSION_URL = "https://geteventstore.com/downloads/downloads";
+    private static final Logger LOG = LoggerFactory.getLogger(Downloads.class);
+
+    private static final String VERSION_URL = "https://geteventstore.com/downloads/downloads.json";
 
     private static final int TIMEOUT_30_SECONDS = 1000 * 30;
 
@@ -47,26 +51,23 @@ public final class Downloads {
     private final List<DownloadOS> osList;
 
     /**
-     * Constructor that loads the versions from the default URL.
-     * 
-     * @throws IOException
-     *             Error creating a temporary JSON file or reading from the URL.
-     */
-    public Downloads() throws IOException {
-        this(File.createTempFile("event-store-downloads-", ".json"));
-        FileUtils.copyURLToFile(new URL(VERSION_URL), jsonDownloadsFile, TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
-    }
-
-    /**
-     * Constructor with local file.
+     * Constructor with local file. If the file does not exist, a current
+     * version of the version file will be loaded.
      * 
      * @param jsonDownloadsFile
      *            Name of the JSON download file.
      */
-    public Downloads(final File jsonDownloadsFile) {
+    public Downloads(final File jsonDownloadsFile) throws IOException {
         super();
         this.jsonDownloadsFile = jsonDownloadsFile;
         this.osList = new ArrayList<>();
+
+        if (!jsonDownloadsFile.exists()) {
+            LOG.info("Download version file: " + VERSION_URL);
+            FileUtils.copyURLToFile(new URL(VERSION_URL), jsonDownloadsFile, TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
+        }
+        LOG.info("Local version file: " + jsonDownloadsFile);
+
     }
 
     /**
@@ -116,6 +117,10 @@ public final class Downloads {
             Collections.sort(osList);
         } finally {
             reader.close();
+        }
+
+        for (final DownloadOS os : osList) {
+            LOG.info("Latest '" + os + "': " + os.getLatestVersion() + " (Versions: " + os.getVersions().size() + ")");
         }
 
     }
