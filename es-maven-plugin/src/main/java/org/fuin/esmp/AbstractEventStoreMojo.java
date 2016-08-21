@@ -69,11 +69,11 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
     /**
      * Version of the archive (Like "3.8.1"). This is used to construct an
-     * archive URl for the OS where the build script is executed. If it's not set,
-     * the latest version will be used by default.
+     * archive URl for the OS where the build script is executed. If it's not
+     * set, the latest version will be used by default.
      */
-    @Parameter(name = "archive-version", defaultValue = "3.8.1")
-    private String archiveVersion = "3.8.1";
+    @Parameter(name = "archive-version")
+    private String archiveVersion;
 
     /**
      * File extension of the archive (Like "zip" or "tar.gz"). This is used to
@@ -132,48 +132,12 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
         // Only initialize other stuff if no full URL is provided
         if (downloadUrl == null) {
-            
-            // Make sure base URL always ends with a slash
-            if (!baseUrl.endsWith("/")) {
-                baseUrl = baseUrl + "/";
-            }
 
-            // Supply variables that are OS dependent
-            if (OS.isFamilyWindows()) {
-                if (archiveName == null) {
-                    archiveName = "EventStore-OSS-Win";
-                }
-                if (archiveExtension == null) {
-                    archiveExtension = "zip";
-                }
-            } else if (OS.isFamilyMac()) {
-                if (archiveName == null) {
-                    archiveName = "EventStore-OSS-Mac";
-                }
-                if (archiveExtension == null) {
-                    archiveExtension = "tar.gz";
-                }
-            } else if (OS.isFamilyUnix()) {
-                if (archiveName == null) {
-                    if (isUbuntuVersion()) {
-                        archiveName = "EventStore-OSS-Ubuntu-14.04";
-                    } else {
-                        archiveName = "EventStore-OSS-Linux";
-                    }
-                }
-                if (archiveExtension == null) {
-                    archiveExtension = "tar.gz";
-                }
+            if (archiveVersion == null) {
+                initUsingLatest();
             } else {
-                if (archiveName == null) {
-                    throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
-                }
-                if (archiveExtension == null) {
-                    throw new MojoExecutionException("Unknown OS - You must use the 'archive-ext' parameter");
-                }
+                initUsingVersion();
             }
-            
-            downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "." + archiveExtension;
 
         }
 
@@ -194,6 +158,88 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     // CHECKSTYLE:ON
+
+    private void initUsingLatest() throws MojoExecutionException {
+
+        try {
+            final File jsonVersionFile = new File(canonicalFile(targetDir), "event-store-versions.json");
+            final Downloads downloads = new Downloads(jsonVersionFile);
+            downloads.parse();
+
+            final String os;
+            if (OS.isFamilyWindows()) {
+                os = "win";
+            } else if (OS.isFamilyMac()) {
+                os = "osx-10.10";
+            } else if (OS.isFamilyUnix()) {
+                os = "ubuntu-14.04";
+            } else {
+                throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+            }
+
+            final DownloadOS downloadOS = downloads.findOS(os);
+            if (downloadOS == null) {
+                throw new MojoExecutionException(
+                        "Couldn't find OS '" + os + "' in '" + downloads.getJsonDownloadsFile() + "'");
+            }
+            final DownloadVersion version = downloadOS.getLatestVersion();
+            if (version == null) {
+                throw new MojoExecutionException("No latest version found for OS '" + os + "'");
+            }
+
+            downloadUrl = version.getUrl();
+
+        } catch (final IOException ex) {
+            throw new MojoExecutionException("Error parsing the event store version file", ex);
+        }
+
+    }
+
+    private void initUsingVersion() throws MojoExecutionException {
+
+        // Make sure base URL always ends with a slash
+        if (!baseUrl.endsWith("/")) {
+            baseUrl = baseUrl + "/";
+        }
+
+        // Supply variables that are OS dependent
+        if (OS.isFamilyWindows()) {
+            if (archiveName == null) {
+                archiveName = "EventStore-OSS-Win";
+            }
+            if (archiveExtension == null) {
+                archiveExtension = "zip";
+            }
+        } else if (OS.isFamilyMac()) {
+            if (archiveName == null) {
+                archiveName = "EventStore-OSS-Mac";
+            }
+            if (archiveExtension == null) {
+                archiveExtension = "tar.gz";
+            }
+        } else if (OS.isFamilyUnix()) {
+            if (archiveName == null) {
+                if (isUbuntuVersion()) {
+                    archiveName = "EventStore-OSS-Ubuntu-14.04";
+                } else {
+                    archiveName = "EventStore-OSS-Linux";
+                }
+            }
+            if (archiveExtension == null) {
+                archiveExtension = "tar.gz";
+            }
+        } else {
+            if (archiveName == null) {
+                throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+            }
+            if (archiveExtension == null) {
+                throw new MojoExecutionException("Unknown OS - You must use the 'archive-ext' parameter");
+            }
+        }
+
+        downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "." + archiveExtension;
+
+    }
 
     private boolean isUbuntuVersion() {
         if (archiveVersion == null) {
