@@ -2,7 +2,6 @@
 This [Maven](https://maven.apache.org/) plugin provides goals that start/stop the [event store](https://github.com/EventStore/EventStore).
 
 [![Build Status](https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin/badge/icon)](https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin/)
-[![Coverage Status](https://coveralls.io/repos/fuinorg/event-store-maven-plugin/badge.svg)](https://coveralls.io/r/fuinorg/event-store-maven-plugin)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.fuin.esmp/es-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.fuin.esmp/es-maven-plugin/)
 [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 [![Java Development Kit 1.8](https://img.shields.io/badge/JDK-1.8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -10,7 +9,26 @@ This [Maven](https://maven.apache.org/) plugin provides goals that start/stop th
 <a href="https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin"><img src="http://www.fuin.org/images/Button-Built-on-CB-1.png" width="213" height="72" border="0" alt="Built on CloudBees"/></a>
 
 ###Getting started
-An example how to use it can be found here: [test-project](https://github.com/fuinorg/event-store-maven-plugin/tree/master/es-maven-test/src/test/resources/test-project)
+Just add the plugin to your Maven POM:
+```xml
+<plugin>
+	<groupId>org.fuin.esmp</groupId>
+	<artifactId>es-maven-plugin</artifactId>
+	<version>0.3.1</version>
+	<executions>
+		<execution>
+			<goals>
+				<goal>download</goal>
+				<goal>start</goal>
+				<goal>stop</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
+This will download the latest event store version to the 'target' build directory and start it before the integration tests will run. After execution the event store will be stopped.
+
+A full example how to use it can be found here: [test-project](https://github.com/fuinorg/event-store-maven-plugin/tree/master/es-maven-test/src/test/resources/test-project)
 
 Remember to name your test class according to [Maven Failsafe Plugin](http://maven.apache.org/surefire/maven-failsafe-plugin/)'s naming [pattern](http://maven.apache.org/surefire/maven-failsafe-plugin/examples/inclusion-exclusion.html).
 
