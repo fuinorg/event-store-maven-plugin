@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2015 Michael Schnell. All rights reserved. 
- * <http://www.fuin.org/>
+ * http://www.fuin.org/
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -13,7 +13,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this library. If not, see <http://www.gnu.org/licenses/>.
+ * along with this library. If not, see http://www.gnu.org/licenses/.
  */
 package org.fuin.esmp;
 
@@ -195,6 +195,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
     }
 
+    // CHECKSTYLE:OFF Cyclomatic Complexity - Code is no highlight, but OK for now 
     private void initUsingVersion() throws MojoExecutionException {
 
         // Make sure base URL always ends with a slash
@@ -240,6 +241,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "." + archiveExtension;
 
     }
+    // CHECKSTYLE:ON
 
     private boolean isUbuntuVersion() {
         if (archiveVersion == null) {
@@ -442,7 +444,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         try {
             FileUtils.write(getPidFile(), pid);
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Couldn't write the PID '" + pid + "' to file: " + getPidFile(), ex);
+            throw new MojoExecutionException("Couldn't write the PID '" + pid + "' to file: " + getPidFile(),
+                    ex);
         }
     }
 

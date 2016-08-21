@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2015 Michael Schnell. All rights reserved. 
- * <http://www.fuin.org/>
+ * http://www.fuin.org/
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -13,7 +13,7 @@
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this library. If not, see <http://www.gnu.org/licenses/>.
+ * along with this library. If not, see http://www.gnu.org/licenses/.
  */
 package org.fuin.esmp;
 
@@ -56,6 +56,10 @@ public final class Downloads {
      * 
      * @param jsonDownloadsFile
      *            Name of the JSON download file.
+     * 
+     * @throws IOException
+     *             Copying the event store version file from URL to local disc
+     *             failed.
      */
     public Downloads(final File jsonDownloadsFile) throws IOException {
         super();
@@ -64,7 +68,8 @@ public final class Downloads {
 
         if (!jsonDownloadsFile.exists()) {
             LOG.info("Download version file: " + VERSION_URL);
-            FileUtils.copyURLToFile(new URL(VERSION_URL), jsonDownloadsFile, TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
+            FileUtils.copyURLToFile(new URL(VERSION_URL), jsonDownloadsFile, TIMEOUT_30_SECONDS,
+                    TIMEOUT_30_SECONDS);
         }
         LOG.info("Local version file: " + jsonDownloadsFile);
 
@@ -92,6 +97,9 @@ public final class Downloads {
 
     /**
      * Loads the data from the JSON download versions file.
+     * 
+     * @throws IOException
+     *             Parsing the event store version file failed.
      */
     public final void parse() throws IOException {
 
@@ -120,7 +128,8 @@ public final class Downloads {
         }
 
         for (final DownloadOS os : osList) {
-            LOG.info("Latest '" + os + "': " + os.getLatestVersion() + " (Versions: " + os.getVersions().size() + ")");
+            LOG.info("Latest '" + os + "': " + os.getLatestVersion() + " (Versions: "
+                    + os.getVersions().size() + ")");
         }
 
     }
