@@ -24,6 +24,13 @@ Just add the plugin to your Maven POM:
 			</goals>
 		</execution>
 	</executions>
+	<!-- The default argumtent is '--mem-db=TRUE' if you don't include the following configuration -->
+	<configuration>
+		<arguments>
+			<argument>--mem-db=TRUE</argument>
+			<argument>--run-projections=All</argument>
+		</arguments>
+	</configuration>
 </plugin>
 ```
 This will download the latest event store version to the 'target' build directory and start it before the integration tests will run. After execution the event store will be stopped.
