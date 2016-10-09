@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,15 +34,19 @@ public class EventStoreMojosTest {
 
     // CHECKSTYLE:OFF Test
 
-    private static final File TEST_DIR = new File(
-            "target/test-classes/test-project");
+    private static final File TEST_DIR = new File("target/test-classes/test-project");
 
     private Verifier verifier;
 
     @Before
     public void setup() throws Exception {
-        verifier = new Verifier(TEST_DIR.getAbsolutePath());
+        verifier = new Verifier(TEST_DIR.getAbsolutePath(), true);
         verifier.deleteArtifacts("org.fuin.esmp", "esmp-test-project", "0.0.1");
+    }
+
+    @After
+    public void teardown() throws VerificationException {
+        verifier.displayStreamBuffers();
     }
 
     @Test
@@ -56,6 +61,14 @@ public class EventStoreMojosTest {
         verifier.executeGoals(goals);
 
         // VERIFY
+        System.out.println(
+                "=================================== PLUGIN OUTPUT BEGIN ===================================");
+        final List<String> lines = verifier.loadFile(verifier.getBasedir(), verifier.getLogFileName(), false);
+        for (final String line : lines) {
+            System.out.println(line);
+        }
+        System.out.println(
+                "=================================== PLUGIN OUTPUT END =====================================");
         verifier.verifyErrorFreeLog();
 
         // download
