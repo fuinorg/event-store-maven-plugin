@@ -37,6 +37,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+		    <groupId>com.github.msemys</groupId>
+		    <artifactId>esjc</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -60,16 +66,37 @@
 			<plugin>
 				<groupId>org.fuin.esmp</groupId>
 				<artifactId>es-maven-plugin</artifactId>
-				<version>0.4.0</version>
+				<version>0.4.1</version>
+				
 				<executions>
 					<execution>
 						<goals>
 							<goal>download</goal>
+							<goal>certificate</goal>
 							<goal>start</goal>
 							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>
+				
+			    <!-- The default argument is '-MemDb' if you don't include the following configuration -->
+			    <configuration>
+			    
+			    	<!-- Creates a self-signed X509 certificate -->
+			    	<certificate-file>${project.build.directory}/domain.p12</certificate-file>
+			    	
+			    	<!-- Start the event store in-memory with some parameters -->
+			        <arguments>			         
+			            <argument>--mem-db=TRUE</argument>
+			            <argument>--stats-period-sec=3000</argument>
+			            <argument>--ext-tcp-port=7773</argument>
+			            <argument>--ext-secure-tcp-port=7779</argument>
+			            <argument>--certificate-file=${project.build.directory}/domain.p12</argument>
+			            <argument>--run-projections=All</argument>
+			        </arguments>
+			        
+			    </configuration>
+			    
 			</plugin>
 
 		</plugins>

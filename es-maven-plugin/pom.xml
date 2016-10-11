@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.fuin.esmp</groupId>
 		<artifactId>es-maven-parent</artifactId>
-		<version>0.4.0</version>
+		<version>0.4.1</version>
 	</parent>
 
 	<artifactId>es-maven-plugin</artifactId>
@@ -85,6 +85,18 @@
 			<groupId>com.jcabi</groupId>
 			<artifactId>jcabi-maven-slf4j</artifactId>
 			<version>0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.52</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.52</version>
 		</dependency>
 
 		<!-- test -->

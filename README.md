@@ -11,29 +11,37 @@ This [Maven](https://maven.apache.org/) plugin provides goals that start/stop th
 ###Getting started
 Just add the plugin to your Maven POM:
 ```xml
-<plugin>
+<plugin>	
 	<groupId>org.fuin.esmp</groupId>
 	<artifactId>es-maven-plugin</artifactId>
-	<version>0.4.0</version>
+	<version>0.4.1</version>
 	<executions>
 		<execution>
 			<goals>
 				<goal>download</goal>
+				<goal>certificate</goal>
 				<goal>start</goal>
 				<goal>stop</goal>
 			</goals>
 		</execution>
 	</executions>
-	<!-- The default argumtent is '--mem-db=TRUE' if you don't include the following configuration -->
-	<configuration>
-		<arguments>
-			<argument>--mem-db=TRUE</argument>
-			<argument>--run-projections=All</argument>
-		</arguments>
-	</configuration>
+    <!-- The default argument is '-MemDb' if you don't include the following configuration -->
+    <configuration>
+    	<!-- Creates a self-signed X509 certificate -->
+    	<certificate-file>${project.build.directory}/domain.p12</certificate-file>
+    	<!-- Start the event store in-memory with some parameters -->
+        <arguments>			         
+            <argument>--mem-db=TRUE</argument>
+            <argument>--stats-period-sec=3000</argument>
+            <argument>--ext-tcp-port=7773</argument>
+            <argument>--ext-secure-tcp-port=7779</argument>
+            <argument>--certificate-file=${project.build.directory}/domain.p12</argument>
+            <argument>--run-projections=All</argument>
+        </arguments>
+    </configuration>
 </plugin>
 ```
-This will download the latest event store version to the 'target' build directory and start it before the integration tests will run. After execution the event store will be stopped.
+This will download the latest event store version to the 'target' build directory, create a self-signed certificate and start it before the integration tests will run. After execution the event store will be stopped.
 
 A full example how to use it can be found here: [test-project](https://github.com/fuinorg/event-store-maven-plugin/tree/master/es-maven-test/src/test/resources/test-project)
 

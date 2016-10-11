@@ -76,6 +76,9 @@ public class EventStoreMojosTest {
         verifier.verifyTextInLog("Archive copied from ");
         verifier.verifyTextInLog("Unpack event store to target directory:");
 
+        // certificate
+        verifier.verifyTextInLog("Certificate successfully created");
+        
         // start
         verifier.verifyTextInLog("Event store process ID:");
 
