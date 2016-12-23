@@ -187,7 +187,15 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
 
     }
 
-    private void unzip(final File zipFile, final File destDir) throws MojoExecutionException {
+    /**
+     * Unzips the given ZIP file into a target directory.
+     * 
+     * @param zipFile ZIP file.
+     * @param destDir Target directory.
+     * 
+     * @throws MojoExecutionException Error unzipping the file.
+     */
+    public static void unzip(final File zipFile, final File destDir) throws MojoExecutionException {
 
         try {
             final ZipFile zip = new ZipFile(zipFile);
@@ -204,6 +212,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                         final File dir = new File(destDir, entry.getName());
                         createIfNecessary(dir);
                     } else {
+                        LOG.info("Extracting: " + entry.getName());
                         final File outFile = new File(destDir, entry.getName());
                         createIfNecessary(outFile.getParentFile());
                         final InputStream in = new BufferedInputStream(zip.getInputStream(entry));
@@ -232,7 +241,15 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
         }
     }
 
-    private void unTarGz(final File archive, final File destDir) throws MojoExecutionException {
+    /**
+     * Unpacks the given TAR/GZ file into a target directory.
+     * 
+     * @param archive TAR/GZ archive file.
+     * @param destDir Target directory.
+     * 
+     * @throws MojoExecutionException Error unpacking the file.
+     */
+    public static void unTarGz(final File archive, final File destDir) throws MojoExecutionException {
 
         try {
             final TarArchiveInputStream tarIn = new TarArchiveInputStream(
@@ -280,7 +297,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
     // CHECKSTYLE:OFF External code
     // Inspired by:
     // https://raw.githubusercontent.com/bluemel/RapidEnv/master/org.rapidbeans.rapidenv/src/org/rapidbeans/rapidenv/Unpacker.java
-    private void applyFileMode(final File file, final FileMode fileMode) throws MojoExecutionException {
+    private static void applyFileMode(final File file, final FileMode fileMode) throws MojoExecutionException {
 
         if (OS.isFamilyUnix() || OS.isFamilyMac()) {
             final String smode = fileMode.toChmodStringFull();
