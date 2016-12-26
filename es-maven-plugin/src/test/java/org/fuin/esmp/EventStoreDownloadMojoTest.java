@@ -57,6 +57,23 @@ public class EventStoreDownloadMojoTest {
     }
 
     @Test
+    public void testUnTarGzFilesOnly() throws MojoExecutionException, IOException {
+
+        // PREPARE
+        final String name = this.getClass().getSimpleName() + "-testUnTarGzFilesOnly";
+        final File archive = File.createTempFile(name + "-", ".tar.gz");
+        final File destDir = new File(Utils4J.getTempDir(), name);
+        init("files-only.tar.gz", archive, destDir);
+
+        // TEST
+        EventStoreDownloadMojo.unTarGz(archive, destDir);
+
+        // VERIFY
+        assertAllExists(destDir);
+
+    }
+    
+    @Test
     public void testUnzip() throws MojoExecutionException, IOException {
 
         // PREPARE

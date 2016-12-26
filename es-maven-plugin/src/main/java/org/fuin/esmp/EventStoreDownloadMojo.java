@@ -190,10 +190,13 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
     /**
      * Unzips the given ZIP file into a target directory.
      * 
-     * @param zipFile ZIP file.
-     * @param destDir Target directory.
+     * @param zipFile
+     *            ZIP file.
+     * @param destDir
+     *            Target directory.
      * 
-     * @throws MojoExecutionException Error unzipping the file.
+     * @throws MojoExecutionException
+     *             Error unzipping the file.
      */
     public static void unzip(final File zipFile, final File destDir) throws MojoExecutionException {
 
@@ -210,11 +213,11 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                     }
                     if (entry.isDirectory()) {
                         final File dir = new File(destDir, entry.getName());
-                        createIfNecessary(dir);
+                        mkDirsIfNecessary(dir);
                     } else {
                         LOG.info("Extracting: " + entry.getName());
                         final File outFile = new File(destDir, entry.getName());
-                        createIfNecessary(outFile.getParentFile());
+                        mkDirsIfNecessary(outFile.getParentFile());
                         final InputStream in = new BufferedInputStream(zip.getInputStream(entry));
                         try {
                             final OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
@@ -242,12 +245,16 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
     }
 
     /**
-     * Unpacks the given TAR/GZ file into a target directory.
+     * Unpacks the given TAR/GZ file into a target directory. It assumes that
+     * the content of the archive only contains relative paths.
      * 
-     * @param archive TAR/GZ archive file.
-     * @param destDir Target directory.
+     * @param archive
+     *            TAR/GZ archive file.
+     * @param destDir
+     *            Target directory.
      * 
-     * @throws MojoExecutionException Error unpacking the file.
+     * @throws MojoExecutionException
+     *             Error unpacking the file.
      */
     public static void unTarGz(final File archive, final File destDir) throws MojoExecutionException {
 
@@ -260,8 +267,9 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
                     LOG.info("Extracting: " + entry.getName());
                     final File file = new File(destDir, entry.getName());
                     if (entry.isDirectory()) {
-                        createIfNecessary(file);
+                        mkDirsIfNecessary(file);
                     } else {
+                        mkDirsIfNecessary(file.getParentFile());
                         int count;
                         final byte[] data = new byte[MB];
                         final FileOutputStream fos = new FileOutputStream(file);
@@ -285,7 +293,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
         }
     }
 
-    private static void createIfNecessary(final File dir) throws IOException {
+    private static void mkDirsIfNecessary(final File dir) throws IOException {
         if (dir.exists()) {
             return;
         }
@@ -297,7 +305,8 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
     // CHECKSTYLE:OFF External code
     // Inspired by:
     // https://raw.githubusercontent.com/bluemel/RapidEnv/master/org.rapidbeans.rapidenv/src/org/rapidbeans/rapidenv/Unpacker.java
-    private static void applyFileMode(final File file, final FileMode fileMode) throws MojoExecutionException {
+    private static void applyFileMode(final File file, final FileMode fileMode)
+            throws MojoExecutionException {
 
         if (OS.isFamilyUnix() || OS.isFamilyMac()) {
             final String smode = fileMode.toChmodStringFull();
