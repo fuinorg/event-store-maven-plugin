@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +40,22 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractEventStoreMojo.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(AbstractEventStoreMojo.class);
 
     private static final String PID_FILE_NAME = "event-store-pid";
+
+    /** URL of the JSON file with available event store versions. */
+    public static final String VERSION_URL = "https://eventstore.org/downloads/downloads.json";
+    
+    /** Base URL where the binary files are located. */
+    public static final String DOWNLOADS_URL = "https://eventstore.org/downloads/";
+    
+    /**
+     * URl of the version JSON file.
+     */
+    @Parameter(name = "version-url", defaultValue = VERSION_URL)
+    private String versionUrl = VERSION_URL;
 
     /**
      * Full URL where the event store file to download is located. If set, this
@@ -56,8 +70,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * Base URl where the event store archives are located. This is used to
      * construct an archive URl for the OS where the build script is executed.
      */
-    @Parameter(name = "base-url", defaultValue = "http://download.geteventstore.com/binaries/")
-    private String baseUrl = "http://download.geteventstore.com/binaries/";
+    @Parameter(name = "base-url", defaultValue = DOWNLOADS_URL)
+    private String baseUrl = DOWNLOADS_URL;
 
     /**
      * Name of the archive (Like "EventStore-OSS-Win" or "EventStore-OSS-Linux")
@@ -107,7 +121,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Checked value was NULL.
      */
-    protected final void checkNotNull(final String name, final Object value) throws MojoExecutionException {
+    protected final void checkNotNull(final String name, final Object value)
+            throws MojoExecutionException {
         if (value == null) {
             throw new MojoExecutionException(name + " cannot be null!");
         }
@@ -117,6 +132,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     public final void execute() throws MojoExecutionException {
         StaticLoggerBinder.getSingleton().setMavenLog(getLog());
         init();
+        LOG.info("version-url={}", versionUrl);
         LOG.info("download-url={}", downloadUrl);
         LOG.info("base-url={}", baseUrl);
         LOG.info("archive-name={}", archiveName);
@@ -145,12 +161,15 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         if (eventStoreDir == null) {
 
             if (downloadUrl.endsWith(".zip")) {
-                eventStoreDir = new File(canonicalFile(targetDir), FilenameUtils.getBaseName(downloadUrl));
-            } else if (downloadUrl.endsWith(".tar.gz")) {
                 eventStoreDir = new File(canonicalFile(targetDir),
-                        FilenameUtils.getBaseName(FilenameUtils.getBaseName(downloadUrl)));
+                        FilenameUtils.getBaseName(downloadUrl));
+            } else if (downloadUrl.endsWith(".tar.gz")) {
+                eventStoreDir = new File(canonicalFile(targetDir), FilenameUtils
+                        .getBaseName(FilenameUtils.getBaseName(downloadUrl)));
             } else {
-                throw new MojoExecutionException("Cannot handle archive with this extension: " + downloadUrl);
+                throw new MojoExecutionException(
+                        "Cannot handle archive with this extension: "
+                                + downloadUrl);
             }
 
         }
@@ -162,8 +181,11 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     private void initUsingLatest() throws MojoExecutionException {
 
         try {
-            final File jsonVersionFile = new File(canonicalFile(targetDir), "event-store-versions.json");
-            final Downloads downloads = new Downloads(jsonVersionFile);
+            final URL versionURL = new URL(versionUrl);
+            final File jsonVersionFile = new File(canonicalFile(targetDir),
+                    "event-store-versions.json");
+            final Downloads downloads = new Downloads(versionURL,
+                    jsonVersionFile);
             downloads.parse();
 
             final String os;
@@ -174,28 +196,32 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
             } else if (OS.isFamilyUnix()) {
                 os = "ubuntu-14.04";
             } else {
-                throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+                throw new MojoExecutionException(
+                        "Unknown OS - You must use the 'archive-name' parameter");
             }
 
             final DownloadOS downloadOS = downloads.findOS(os);
             if (downloadOS == null) {
-                throw new MojoExecutionException(
-                        "Couldn't find OS '" + os + "' in '" + downloads.getJsonDownloadsFile() + "'");
+                throw new MojoExecutionException("Couldn't find OS '" + os
+                        + "' in '" + downloads.getJsonDownloadsFile() + "'");
             }
             final DownloadVersion version = downloadOS.getLatestVersion();
             if (version == null) {
-                throw new MojoExecutionException("No latest version found for OS '" + os + "'");
+                throw new MojoExecutionException(
+                        "No latest version found for OS '" + os + "'");
             }
 
             downloadUrl = version.getUrl();
 
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Error parsing the event store version file", ex);
+            throw new MojoExecutionException(
+                    "Error parsing the event store version file", ex);
         }
 
     }
 
-    // CHECKSTYLE:OFF Cyclomatic Complexity - Code is no highlight, but OK for now 
+    // CHECKSTYLE:OFF Cyclomatic Complexity - Code is no highlight, but OK for
+    // now
     private void initUsingVersion() throws MojoExecutionException {
 
         // Make sure base URL always ends with a slash
@@ -231,14 +257,17 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
             }
         } else {
             if (archiveName == null) {
-                throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+                throw new MojoExecutionException(
+                        "Unknown OS - You must use the 'archive-name' parameter");
             }
             if (archiveExtension == null) {
-                throw new MojoExecutionException("Unknown OS - You must use the 'archive-ext' parameter");
+                throw new MojoExecutionException(
+                        "Unknown OS - You must use the 'archive-ext' parameter");
             }
         }
 
-        downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "." + archiveExtension;
+        downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "."
+                + archiveExtension;
 
     }
     // CHECKSTYLE:ON
@@ -248,7 +277,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
             return true;
         }
         // Filename has changed from 3.1.x on
-        if (archiveVersion.startsWith("3.0.") || archiveVersion.startsWith("2.0.")
+        if (archiveVersion.startsWith("3.0.")
+                || archiveVersion.startsWith("2.0.")
                 || archiveVersion.startsWith("1.0.")) {
             return false;
         }
@@ -259,7 +289,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         try {
             return file.getCanonicalFile();
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Error creating canonical file: " + file, ex);
+            throw new MojoExecutionException(
+                    "Error creating canonical file: " + file, ex);
         }
     }
 
@@ -440,12 +471,13 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Error writing the PID to file.
      */
-    protected final void writePid(final String pid) throws MojoExecutionException {
+    protected final void writePid(final String pid)
+            throws MojoExecutionException {
         try {
             FileUtils.write(getPidFile(), pid);
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Couldn't write the PID '" + pid + "' to file: " + getPidFile(),
-                    ex);
+            throw new MojoExecutionException("Couldn't write the PID '" + pid
+                    + "' to file: " + getPidFile(), ex);
         }
     }
 
@@ -462,7 +494,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         try {
             return FileUtils.readFileToString(getPidFile());
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Couldn't read the PID from file: " + getPidFile(), ex);
+            throw new MojoExecutionException(
+                    "Couldn't read the PID from file: " + getPidFile(), ex);
         }
     }
 
@@ -475,7 +508,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     protected final void deletePid() throws MojoExecutionException {
         final boolean ok = getPidFile().delete();
         if (!ok) {
-            throw new MojoExecutionException("Couldn't delete the PID file: " + getPidFile());
+            throw new MojoExecutionException(
+                    "Couldn't delete the PID file: " + getPidFile());
         }
     }
 
@@ -499,10 +533,12 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Error splitting the string into lines.
      */
-    protected final List<String> asList(final String str) throws MojoExecutionException {
+    protected final List<String> asList(final String str)
+            throws MojoExecutionException {
         try {
             final List<String> lines = new ArrayList<String>();
-            final LineNumberReader reader = new LineNumberReader(new StringReader(str));
+            final LineNumberReader reader = new LineNumberReader(
+                    new StringReader(str));
             String line;
             while ((line = reader.readLine()) != null) {
                 lines.add(line);

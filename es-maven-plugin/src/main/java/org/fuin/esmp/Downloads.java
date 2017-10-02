@@ -42,8 +42,6 @@ public final class Downloads {
 
     private static final Logger LOG = LoggerFactory.getLogger(Downloads.class);
 
-    private static final String VERSION_URL = "https://geteventstore.com/downloads/downloads.json";
-
     private static final int TIMEOUT_30_SECONDS = 1000 * 30;
 
     private final File jsonDownloadsFile;
@@ -51,9 +49,11 @@ public final class Downloads {
     private final List<DownloadOS> osList;
 
     /**
-     * Constructor with local file. If the file does not exist, a current
-     * version of the version file will be loaded.
+     * Constructor with URL and local file. If the file does not exist, a
+     * current version of the version file will be loaded.
      * 
+     * @param versionURL
+     *            URL of the version JSON file.
      * @param jsonDownloadsFile
      *            Name of the JSON download file.
      * 
@@ -61,15 +61,16 @@ public final class Downloads {
      *             Copying the event store version file from URL to local disc
      *             failed.
      */
-    public Downloads(final File jsonDownloadsFile) throws IOException {
+    public Downloads(final URL versionURL, final File jsonDownloadsFile)
+            throws IOException {
         super();
         this.jsonDownloadsFile = jsonDownloadsFile;
         this.osList = new ArrayList<>();
 
         if (!jsonDownloadsFile.exists()) {
-            LOG.info("Download version file: " + VERSION_URL);
-            FileUtils.copyURLToFile(new URL(VERSION_URL), jsonDownloadsFile, TIMEOUT_30_SECONDS,
-                    TIMEOUT_30_SECONDS);
+            LOG.info("Download version file: " + versionURL);
+            FileUtils.copyURLToFile(versionURL, jsonDownloadsFile,
+                    TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
         }
         LOG.info("Local version file: " + jsonDownloadsFile);
 
@@ -111,10 +112,12 @@ public final class Downloads {
                 final JsonObject osObj = (JsonObject) osArray.get(i);
                 final String os = osObj.getString("os");
                 final String currentVersion = osObj.getString("currentVersion");
-                final JsonArray downloadsArray = osObj.getJsonArray("downloads");
+                final JsonArray downloadsArray = osObj
+                        .getJsonArray("downloads");
                 final List<DownloadVersion> versions = new ArrayList<>();
                 for (int j = 0; j < downloadsArray.size(); j++) {
-                    final JsonObject downloadObj = (JsonObject) downloadsArray.get(j);
+                    final JsonObject downloadObj = (JsonObject) downloadsArray
+                            .get(j);
                     final String version = downloadObj.getString("version");
                     final String url = downloadObj.getString("url");
                     versions.add(new DownloadVersion(version, url));
@@ -128,8 +131,8 @@ public final class Downloads {
         }
 
         for (final DownloadOS os : osList) {
-            LOG.info("Latest '" + os + "': " + os.getLatestVersion() + " (Versions: "
-                    + os.getVersions().size() + ")");
+            LOG.info("Latest '" + os + "': " + os.getLatestVersion()
+                    + " (Versions: " + os.getVersions().size() + ")");
         }
 
     }
