@@ -8,7 +8,7 @@ This [Maven](https://maven.apache.org/) plugin provides goals that start/stop th
 
 <a href="https://fuin-org.ci.cloudbees.com/job/event-store-maven-plugin"><img src="http://www.fuin.org/images/Button-Built-on-CB-1.png" width="213" height="72" border="0" alt="Built on CloudBees"/></a>
 
-###Getting started
+### Getting started
 Just add the plugin to your Maven POM:
 ```xml
 <plugin>	
@@ -50,7 +50,7 @@ Remember to name your test class according to [Maven Failsafe Plugin](http://mav
 To execute your integration test use:
 ```mvn clean verify``` or ```mvn verify```
 
-###Snapshots
+### Snapshots
 
 Snapshots can be found on the [OSS Sonatype Snapshots Repository](http://oss.sonatype.org/content/repositories/snapshots/org/fuin "Snapshot Repository"). 
 
