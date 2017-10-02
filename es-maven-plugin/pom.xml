@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.fuin.esmp</groupId>
 		<artifactId>es-maven-parent</artifactId>
-		<version>0.4.2-SNAPSHOT</version>
+		<version>0.4.2</version>
 	</parent>
 
 	<artifactId>es-maven-plugin</artifactId>
