@@ -312,7 +312,7 @@ public final class EventStoreDownloadMojo extends AbstractEventStoreMojo {
             final String smode = fileMode.toChmodStringFull();
             final CommandLine cmdLine = new CommandLine("chmod");
             cmdLine.addArgument(smode);
-            cmdLine.addArgument(file.getAbsolutePath());
+            cmdLine.addArgument(file.getAbsolutePath(), false);
             final Executor executor = new DefaultExecutor();
             try {
                 final int result = executor.execute(cmdLine);
