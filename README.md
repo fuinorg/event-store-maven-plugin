@@ -37,6 +37,7 @@ Just add the plugin to your Maven POM:
             <argument>--ext-secure-tcp-port=7779</argument>
             <argument>--certificate-file=${project.build.directory}/domain.p12</argument>
             <argument>--run-projections=All</argument>
+            <argument>--log=/tmp/log-eventstore</argument>
         </arguments>
     </configuration>
 </plugin>
