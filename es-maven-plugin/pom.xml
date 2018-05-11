@@ -21,28 +21,35 @@
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
-			<version>3.3.9</version>
+			<version>3.5.3</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>3.3.9</version>
+			<version>3.5.3</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
-			<version>3.5</version>
+			<version>3.5.1</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.twdata.maven</groupId>
 			<artifactId>mojo-executor</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.0</version>
+			<exclusions>
+				<!-- Does not work together with 'jcabi-maven-slf4j' -->
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -54,13 +61,13 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
-			<version>1.9</version>
+			<version>1.16.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>2.6</version>
 		</dependency>
 
 		<dependency>
@@ -72,13 +79,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.25</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
+			<version>1.1.2</version>
 		</dependency>
 
 		<dependency>
@@ -90,13 +97,13 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
-			<version>1.52</version>
+			<version>1.59</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
-			<version>1.52</version>
+			<version>1.59</version>
 		</dependency>
 
 		<!-- test -->
@@ -111,14 +118,14 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.5.1</version>
+			<version>3.9.1</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>2.1.2</version>
+			<version>2.4.6</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -131,7 +138,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.4</version>
+				<version>3.5.1</version>
 				<configuration>
 					<goalPrefix>es</goalPrefix>
 				</configuration>
@@ -152,7 +159,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -162,7 +169,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 		</plugins>
 
 	</build>
