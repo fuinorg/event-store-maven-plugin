@@ -14,7 +14,7 @@ Just add the plugin to your Maven POM:
 <plugin>	
 	<groupId>org.fuin.esmp</groupId>
 	<artifactId>es-maven-plugin</artifactId>
-	<version>0.4.2</version>
+	<version>0.4.3</version>
 	<executions>
 		<execution>
 			<goals>
