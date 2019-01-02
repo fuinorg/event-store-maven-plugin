@@ -17,73 +17,124 @@
  */
 package org.fuin.esmp;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Version of the Event Store that is available for download. Equals and hash
- * code are based on the version.
+ * Version of the Event Store that is available for download. Equals and hash code are based on the version name.
  */
 public final class DownloadVersion implements Comparable<DownloadVersion> {
 
-    private final String version;
+    private final String name;
 
-    private final String url;
+    private final List<DownloadOSFamily> osFamilies;
+
+    private boolean sealed;
 
     /**
-     * Constructor with mandatory data.
+     * Constructor with all data.
      * 
-     * @param version
-     *            Version (like "3.1.0").
-     * @param url
-     *            Download URL.
+     * @param name
+     *            Version (like "3.1.0", "4.1.1-hotfix1").
      */
-    public DownloadVersion(final String version, final String url) {
+    public DownloadVersion(final String name) {
+        this(name, new ArrayList<>());
+    }
+
+    /**
+     * Constructor with all data.
+     * 
+     * @param name
+     *            Version (like "3.1.0", "4.1.1-hotfix1").
+     * @param osFamilies
+     *            List of OS families like "Windows", "Mac" or "Linux".
+     */
+    public DownloadVersion(final String name, final List<DownloadOSFamily> osFamilies) {
         super();
-        if (version == null) {
-            throw new IllegalArgumentException("version == null");
+        if (name == null) {
+            throw new IllegalArgumentException("name == null");
         }
-        if (url == null) {
-            throw new IllegalArgumentException("url == null");
+        if (osFamilies == null) {
+            throw new IllegalArgumentException("osFamilies == null");
         }
-        this.version = version;
-        this.url = url;
+        this.name = name;
+        this.osFamilies = osFamilies;
     }
 
     /**
-     * Returns the version.
+     * Returns the version name.
      * 
-     * @return Version (like "3.1.0").
+     * @return Version (like "3.1.0", "4.1.1-hotfix1").
      */
-    public final String getVersion() {
-        return version;
+    public final String getName() {
+        return name;
     }
 
     /**
-     * Returns the download URL string.
+     * Returns the list of OS families.
      * 
-     * @return Archive file URL string.
+     * @return Immutable list of OS families like "Windows", "Mac" or "Linux".
      */
-    public final String getUrl() {
-        return url;
+    public final List<DownloadOSFamily> getOSFamilies() {
+        return Collections.unmodifiableList(osFamilies);
     }
 
     /**
-     * Returns the download URL.
+     * Adds a new family to the list.
      * 
-     * @return Archive file URL.
+     * @param family
+     *            Family to add.
      */
-    public final URL getURL() {
-        try {
-            return new URL(url);
-        } catch (final MalformedURLException ex) {
-            throw new RuntimeException("Cannot convert URL: " + url, ex);
+    final void addOSFamily(final DownloadOSFamily family) {
+        if (sealed) {
+            throw new IllegalStateException("The instance is sealed");
+        }
+        osFamilies.add(family);
+    }
+
+    /**
+     * The instance is sealed and no changes are allowed any more.
+     */
+    final void seal() {
+        if (sealed) {
+            return;
+        }
+        sealed = true;
+        for (final DownloadOSFamily family : osFamilies) {
+            family.seal();
         }
     }
 
+    /**
+     * Returns the OS family with a given name.
+     * 
+     * @param name
+     *            Family to find.
+     * 
+     * @return Found instance or <code>null</code> if no family with that name was found.
+     */
+    public DownloadOSFamily findFamily(final String name) {
+        final int idx = osFamilies.indexOf(new DownloadOSFamily(name));
+        if (idx < 0) {
+            return null;
+        }
+        return osFamilies.get(idx);
+    }
+
+    /**
+     * Determines if this version is a release.
+     * 
+     * @return {@code true} if the version contains no "-rc" string.
+     */
+    public boolean isRelease() {
+        return !name.contains("-rc");
+    }
+
+    
     @Override
     public final int hashCode() {
-        return version.hashCode();
+        return name.hashCode();
     }
 
     @Override
@@ -98,17 +149,17 @@ public final class DownloadVersion implements Comparable<DownloadVersion> {
             return false;
         }
         final DownloadVersion other = (DownloadVersion) obj;
-        return version.equals(other.version);
+        return name.equals(other.name);
     }
 
     @Override
     public final String toString() {
-        return version;
+        return name;
     }
 
     @Override
     public final int compareTo(final DownloadVersion other) {
-        return version.compareTo(other.version);
+        return name.compareTo(other.name);
     }
 
 }

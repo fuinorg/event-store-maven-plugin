@@ -24,6 +24,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.json.Json;
@@ -46,11 +47,10 @@ public final class Downloads {
 
     private final File jsonDownloadsFile;
 
-    private final List<DownloadOS> osList;
+    private final List<DownloadVersion> versions;
 
     /**
-     * Constructor with URL and local file. If the file does not exist, a
-     * current version of the version file will be loaded.
+     * Constructor with URL and local file. If the file does not exist, a current version of the version file will be loaded.
      * 
      * @param versionURL
      *            URL of the version JSON file.
@@ -58,42 +58,35 @@ public final class Downloads {
      *            Name of the JSON download file.
      * 
      * @throws IOException
-     *             Copying the event store version file from URL to local disc
-     *             failed.
+     *             Copying the event store version file from URL to local disc failed.
      */
-    public Downloads(final URL versionURL, final File jsonDownloadsFile)
-            throws IOException {
+    public Downloads(final URL versionURL, final File jsonDownloadsFile) throws IOException {
         super();
         this.jsonDownloadsFile = jsonDownloadsFile;
-        this.osList = new ArrayList<>();
+        this.versions = new ArrayList<>();
 
         if (!jsonDownloadsFile.exists()) {
             LOG.info("Download version file: " + versionURL);
-            FileUtils.copyURLToFile(versionURL, jsonDownloadsFile,
-                    TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
+            FileUtils.copyURLToFile(versionURL, jsonDownloadsFile, TIMEOUT_30_SECONDS, TIMEOUT_30_SECONDS);
         }
         LOG.info("Local version file: " + jsonDownloadsFile);
 
     }
 
     /**
-     * Returns the OS with a given name.
+     * Returns the version with a given name.
      * 
      * @param name
-     *            OS name to find.
+     *            Version to find.
      * 
-     * @return Found instance or <code>null</code> if no OS with that name was
-     *         found.
+     * @return Found instance or <code>null</code> if no version with that name was found.
      */
-    public DownloadOS findOS(final String name) {
-        if (osList == null) {
-            return null;
-        }
-        final int idx = osList.indexOf(new DownloadOS(name));
+    public DownloadVersion findVersion(final String name) {
+        final int idx = versions.indexOf(new DownloadVersion(name));
         if (idx < 0) {
             return null;
         }
-        return osList.get(idx);
+        return versions.get(idx);
     }
 
     /**
@@ -106,33 +99,40 @@ public final class Downloads {
 
         final Reader reader = new FileReader(jsonDownloadsFile);
         try {
+
             final JsonReader jsonReader = Json.createReader(reader);
-            final JsonArray osArray = jsonReader.readArray();
-            for (int i = 0; i < osArray.size(); i++) {
-                final JsonObject osObj = (JsonObject) osArray.get(i);
-                final String os = osObj.getString("os");
-                final String currentVersion = osObj.getString("currentVersion");
-                final JsonArray downloadsArray = osObj
-                        .getJsonArray("downloads");
-                final List<DownloadVersion> versions = new ArrayList<>();
-                for (int j = 0; j < downloadsArray.size(); j++) {
-                    final JsonObject downloadObj = (JsonObject) downloadsArray
-                            .get(j);
-                    final String version = downloadObj.getString("version");
-                    final String url = downloadObj.getString("url");
-                    versions.add(new DownloadVersion(version, url));
+            final JsonObject versionsObj = jsonReader.readObject();
+            final Iterator<String> versionIt = versionsObj.keySet().iterator();
+            while (versionIt.hasNext()) {
+                final DownloadVersion version = new DownloadVersion(versionIt.next());
+                versions.add(version);
+
+                final JsonObject families = versionsObj.getJsonObject(version.getName());
+                final Iterator<String> familyIt = families.keySet().iterator();
+                while (familyIt.hasNext()) {
+                    final DownloadOSFamily family = new DownloadOSFamily(familyIt.next());
+                    version.addOSFamily(family);
+                    final JsonArray downloads = families.getJsonArray(family.getName());
+                    for (int i = 0; i < downloads.size(); i++) {
+                        final JsonObject download = downloads.getJsonObject(i);
+                        final String name = download.getString("name");
+                        final String url = download.getString("url");
+                        family.addOS(new DownloadOS(name, url));
+                    }
                 }
-                Collections.sort(versions);
-                osList.add(new DownloadOS(os, currentVersion, versions));
+
             }
-            Collections.sort(osList);
+
+            for (final DownloadVersion version : versions) {
+                version.seal();
+            }
+
         } finally {
             reader.close();
         }
 
-        for (final DownloadOS os : osList) {
-            LOG.info("Latest '" + os + "': " + os.getLatestVersion()
-                    + " (Versions: " + os.getVersions().size() + ")");
+        for (final DownloadVersion version : versions) {
+            LOG.info("{}", version);
         }
 
     }
@@ -147,12 +147,28 @@ public final class Downloads {
     }
 
     /**
-     * Returns the OS list.
+     * Returns the version list.
      * 
      * @return Available download versions.
      */
-    public List<DownloadOS> getOsList() {
-        return Collections.unmodifiableList(osList);
+    public List<DownloadVersion> getVersions() {
+        return Collections.unmodifiableList(versions);
+    }
+
+    /**
+     * Returns the latest available version.
+     * 
+     * @param includeRC Include release candidates ({@code true}) or only return releases ({@code false}).
+     * 
+     * @return Latest version.
+     */
+    public DownloadVersion findLatest(final boolean includeRC) {
+        for (final DownloadVersion version : versions) {
+            if (includeRC || version.isRelease()) {
+                return version;
+            }
+        }
+        throw new IllegalStateException("No version found");
     }
 
 }

@@ -40,17 +40,13 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(AbstractEventStoreMojo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractEventStoreMojo.class);
 
     private static final String PID_FILE_NAME = "event-store-pid";
 
     /** URL of the JSON file with available event store versions. */
     public static final String VERSION_URL = "https://eventstore.org/downloads/downloads.json";
-    
-    /** Base URL where the binary files are located. */
-    public static final String DOWNLOADS_URL = "https://eventstore.org/downloads/";
-    
+
     /**
      * URl of the version JSON file.
      */
@@ -58,43 +54,26 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     private String versionUrl = VERSION_URL;
 
     /**
-     * Full URL where the event store file to download is located. If set, this
-     * always overrides the <code>base-url</code>, <code>archive-name</code>,
-     * <code>archive-version</code> and <code>archive-extension</code>
-     * parameters.
+     * Full URL where the event store file to download is located. If set, this always overrides the automatic download of the latest
+     * version.
      */
     @Parameter(name = "download-url")
     private String downloadUrl;
 
     /**
-     * Base URl where the event store archives are located. This is used to
-     * construct an archive URl for the OS where the build script is executed.
+     * Qualifier that helps selecting the right download.
+     * 
+     * Examples are: "Ubuntu", "Linux", "macOS" or "Windows". As of January 2019 only for "Linux" and "Ubuntu" it's necessary to provide
+     * this value. Defaults to "Ubuntu" in case of a Linux OS.
      */
-    @Parameter(name = "base-url", defaultValue = DOWNLOADS_URL)
-    private String baseUrl = DOWNLOADS_URL;
+    @Parameter(name = "download-os-qualifier")
+    private String downloadOSQualifier;
 
     /**
-     * Name of the archive (Like "EventStore-OSS-Win" or "EventStore-OSS-Linux")
-     * without version and file extension. This is used to construct an archive
-     * URl for the OS where the build script is executed.
+     * Determines if release candidates (versions with "-rc") should be included.
      */
-    @Parameter(name = "archive-name")
-    private String archiveName;
-
-    /**
-     * Version of the archive (Like "3.8.1"). This is used to construct an
-     * archive URl for the OS where the build script is executed. If it's not
-     * set, the latest version will be used by default.
-     */
-    @Parameter(name = "archive-version")
-    private String archiveVersion;
-
-    /**
-     * File extension of the archive (Like "zip" or "tar.gz"). This is used to
-     * construct an archive URl for the OS where the build script is executed.
-     */
-    @Parameter(name = "archive-extension")
-    private String archiveExtension;
+    @Parameter(name = "include-rc", defaultValue = "false")
+    private String includeRc;
 
     /**
      * The target build directory.
@@ -103,15 +82,13 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     private File targetDir = new File("./target");
 
     /**
-     * Directory where the event store should be installed. The downloaded
-     * archive will be uncompressed into this directory.
+     * Directory where the event store should be installed. The downloaded archive will be uncompressed into this directory.
      */
     @Parameter(name = "event-store-dir")
     private File eventStoreDir;
 
     /**
-     * Checks if a variable is not <code>null</code> and throws an
-     * <code>IllegalNullArgumentException</code> if this rule is violated.
+     * Checks if a variable is not <code>null</code> and throws an <code>IllegalNullArgumentException</code> if this rule is violated.
      * 
      * @param name
      *            Name of the variable to be displayed in an error message.
@@ -121,8 +98,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Checked value was NULL.
      */
-    protected final void checkNotNull(final String name, final Object value)
-            throws MojoExecutionException {
+    protected final void checkNotNull(final String name, final Object value) throws MojoExecutionException {
         if (value == null) {
             throw new MojoExecutionException(name + " cannot be null!");
         }
@@ -134,10 +110,8 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         init();
         LOG.info("version-url={}", versionUrl);
         LOG.info("download-url={}", downloadUrl);
-        LOG.info("base-url={}", baseUrl);
-        LOG.info("archive-name={}", archiveName);
-        LOG.info("archive-version={}", archiveVersion);
-        LOG.info("archive-extension={}", archiveExtension);
+        LOG.info("\n" + "        LOG={}", downloadOSQualifier);
+        LOG.info("includeRc={}", includeRc);
         LOG.info("target-dir={}", targetDir);
         LOG.info("event-store-dir={}", eventStoreDir);
         executeGoal();
@@ -148,28 +122,18 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
 
         // Only initialize other stuff if no full URL is provided
         if (downloadUrl == null) {
-
-            if (archiveVersion == null) {
-                initUsingLatest();
-            } else {
-                initUsingVersion();
-            }
-
+            initUsingLatest();
         }
 
         // If it's not explicitly set, create it with target directory
         if (eventStoreDir == null) {
 
             if (downloadUrl.endsWith(".zip")) {
-                eventStoreDir = new File(canonicalFile(targetDir),
-                        FilenameUtils.getBaseName(downloadUrl));
+                eventStoreDir = new File(canonicalFile(targetDir), FilenameUtils.getBaseName(downloadUrl));
             } else if (downloadUrl.endsWith(".tar.gz")) {
-                eventStoreDir = new File(canonicalFile(targetDir), FilenameUtils
-                        .getBaseName(FilenameUtils.getBaseName(downloadUrl)));
+                eventStoreDir = new File(canonicalFile(targetDir), FilenameUtils.getBaseName(FilenameUtils.getBaseName(downloadUrl)));
             } else {
-                throw new MojoExecutionException(
-                        "Cannot handle archive with this extension: "
-                                + downloadUrl);
+                throw new MojoExecutionException("Cannot handle archive with this extension: " + downloadUrl);
             }
 
         }
@@ -177,120 +141,72 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     // CHECKSTYLE:ON
+
+    private void initDownloadOSQualifier() throws MojoExecutionException {
+        if (downloadOSQualifier == null) {
+            if (OS.isFamilyWindows()) {
+                downloadOSQualifier = "Windows";
+            } else if (OS.isFamilyMac()) {
+                downloadOSQualifier = "macOS";
+            } else if (OS.isFamilyUnix()) {
+                downloadOSQualifier = "Ubuntu";
+            } else {
+                throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+            }
+        }
+    }
+
+    private String getOS() throws MojoExecutionException {
+        if (OS.isFamilyWindows()) {
+            return "Windows";
+        }
+        if (OS.isFamilyMac()) {
+            return "Mac";
+        }
+        if (OS.isFamilyUnix()) {
+            return "Linux";
+        }
+        throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
+    }
 
     private void initUsingLatest() throws MojoExecutionException {
 
+        initDownloadOSQualifier();
+
         try {
             final URL versionURL = new URL(versionUrl);
-            final File jsonVersionFile = new File(canonicalFile(targetDir),
-                    "event-store-versions.json");
-            final Downloads downloads = new Downloads(versionURL,
-                    jsonVersionFile);
+            final File jsonVersionFile = new File(canonicalFile(targetDir), "event-store-versions.json");
+            final Downloads downloads = new Downloads(versionURL, jsonVersionFile);
             downloads.parse();
 
-            final String os;
-            if (OS.isFamilyWindows()) {
-                os = "win";
-            } else if (OS.isFamilyMac()) {
-                os = "osx-10.10";
-            } else if (OS.isFamilyUnix()) {
-                os = "ubuntu-14.04";
-            } else {
-                throw new MojoExecutionException(
-                        "Unknown OS - You must use the 'archive-name' parameter");
+            final String os = getOS();
+
+            final DownloadVersion version = downloads.findLatest(isIncludeRc());
+
+            final DownloadOSFamily family = version.findFamily(os);
+            if (family == null) {
+                throw new MojoExecutionException("Couldn't find OS family '" + os + "' in '" + downloads.getJsonDownloadsFile() + "'");
             }
 
-            final DownloadOS downloadOS = downloads.findOS(os);
-            if (downloadOS == null) {
-                throw new MojoExecutionException("Couldn't find OS '" + os
-                        + "' in '" + downloads.getJsonDownloadsFile() + "'");
-            }
-            final DownloadVersion version = downloadOS.getLatestVersion();
-            if (version == null) {
-                throw new MojoExecutionException(
-                        "No latest version found for OS '" + os + "'");
+            final DownloadOS download = family.findLatestDownload(downloadOSQualifier);
+            if (download == null) {
+                throw new MojoExecutionException("Couldn't find eyntr with download OS qualifier '" + downloadOSQualifier + "' (version='"
+                        + version + "', family='" + family + "') in '" + downloads.getJsonDownloadsFile() + "'");
             }
 
-            downloadUrl = version.getUrl();
+            downloadUrl = download.getUrl();
 
         } catch (final IOException ex) {
-            throw new MojoExecutionException(
-                    "Error parsing the event store version file", ex);
+            throw new MojoExecutionException("Error parsing the event store version file", ex);
         }
 
-    }
-
-    // CHECKSTYLE:OFF Cyclomatic Complexity - Code is no highlight, but OK for
-    // now
-    private void initUsingVersion() throws MojoExecutionException {
-
-        // Make sure base URL always ends with a slash
-        if (!baseUrl.endsWith("/")) {
-            baseUrl = baseUrl + "/";
-        }
-
-        // Supply variables that are OS dependent
-        if (OS.isFamilyWindows()) {
-            if (archiveName == null) {
-                archiveName = "EventStore-OSS-Win";
-            }
-            if (archiveExtension == null) {
-                archiveExtension = "zip";
-            }
-        } else if (OS.isFamilyMac()) {
-            if (archiveName == null) {
-                archiveName = "EventStore-OSS-Mac";
-            }
-            if (archiveExtension == null) {
-                archiveExtension = "tar.gz";
-            }
-        } else if (OS.isFamilyUnix()) {
-            if (archiveName == null) {
-                if (isUbuntuVersion()) {
-                    archiveName = "EventStore-OSS-Ubuntu-14.04";
-                } else {
-                    archiveName = "EventStore-OSS-Linux";
-                }
-            }
-            if (archiveExtension == null) {
-                archiveExtension = "tar.gz";
-            }
-        } else {
-            if (archiveName == null) {
-                throw new MojoExecutionException(
-                        "Unknown OS - You must use the 'archive-name' parameter");
-            }
-            if (archiveExtension == null) {
-                throw new MojoExecutionException(
-                        "Unknown OS - You must use the 'archive-ext' parameter");
-            }
-        }
-
-        downloadUrl = baseUrl + archiveName + "-v" + archiveVersion + "."
-                + archiveExtension;
-
-    }
-    // CHECKSTYLE:ON
-
-    private boolean isUbuntuVersion() {
-        if (archiveVersion == null) {
-            return true;
-        }
-        // Filename has changed from 3.1.x on
-        if (archiveVersion.startsWith("3.0.")
-                || archiveVersion.startsWith("2.0.")
-                || archiveVersion.startsWith("1.0.")) {
-            return false;
-        }
-        return true;
     }
 
     private File canonicalFile(final File file) throws MojoExecutionException {
         try {
             return file.getCanonicalFile();
         } catch (final IOException ex) {
-            throw new MojoExecutionException(
-                    "Error creating canonical file: " + file, ex);
+            throw new MojoExecutionException("Error creating canonical file: " + file, ex);
         }
     }
 
@@ -320,104 +236,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
-     * Returns the base URl where the event store archives are located.
-     * 
-     * @return Base URL where archives are located.
-     * 
-     * @throws MojoExecutionException
-     *             Error initializing the variable.
-     */
-    public final String getBaseUrl() throws MojoExecutionException {
-        if (baseUrl == null) {
-            init();
-        }
-        return baseUrl;
-    }
-
-    /**
-     * Sets the base URl where the event store archives are located.
-     * 
-     * @param baseUrl
-     *            Base URL where archives are located to set
-     */
-    public final void setBaseUrl(final String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
-    /**
-     * Returns the name of the archive (Like "EventStore-OSS-Win" or
-     * "EventStore-OSS-Linux") without version and file extension.
-     * 
-     * @return the archiveName
-     * 
-     * @throws MojoExecutionException
-     *             Error initializing the variable.
-     */
-    public final String getArchiveName() throws MojoExecutionException {
-        if (archiveName == null) {
-            init();
-        }
-        return archiveName;
-    }
-
-    /**
-     * Sets the name of the archive (Like "EventStore-OSS-Win" or
-     * "EventStore-OSS-Linux") without version and file extension.
-     * 
-     * @param archiveName
-     *            Archive name to set.
-     */
-    public final void setArchiveName(final String archiveName) {
-        this.archiveName = archiveName;
-    }
-
-    /**
-     * Returns the version of the archive (Like "3.0.5").
-     * 
-     * @return Event store version.
-     */
-    public final String getArchiveVersion() {
-        return archiveVersion;
-    }
-
-    /**
-     * Sets the version of the archive (Like "3.0.5").
-     * 
-     * @param archiveVersion
-     *            The event store version to set.
-     */
-    public final void setArchiveVersion(final String archiveVersion) {
-        this.archiveVersion = archiveVersion;
-    }
-
-    /**
-     * Returns the file extension of the archive (Like "zip" or "tar.gz").
-     * 
-     * @return Archive file extension.
-     * 
-     * @throws MojoExecutionException
-     *             Error initializing the variable.
-     */
-    public final String getArchiveExtension() throws MojoExecutionException {
-        if (archiveExtension == null) {
-            init();
-        }
-        return archiveExtension;
-    }
-
-    /**
-     * Sets the file extension of the archive (Like "zip" or "tar.gz").
-     * 
-     * @param archiveExtension
-     *            Archive file extension to set.
-     */
-    public final void setArchiveExtension(final String archiveExtension) {
-        this.archiveExtension = archiveExtension;
-    }
-
-    /**
-     * Returns the directory where the event store should be installed. The
-     * downloaded archive will be uncompressed into this directory.
+     * Returns the directory where the event store should be installed. The downloaded archive will be uncompressed into this directory.
      * 
      * @return Target directory.
      * 
@@ -432,8 +251,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
-     * Sets the directory where the event store should be installed. The
-     * downloaded archive will be uncompressed into this directory.
+     * Sets the directory where the event store should be installed. The downloaded archive will be uncompressed into this directory.
      * 
      * @param eventStoreDir
      *            Target directory to set
@@ -462,8 +280,76 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     }
 
     /**
-     * Writes the process ID of the event store to a file in the target
-     * directory.
+     * Returns the qualifier that helps selecting the right download.
+     * 
+     * @return Qualifier.
+     */
+    public String getDownloadOSQualifier() {
+        return downloadOSQualifier;
+    }
+
+    /**
+     * Sets the qualifier that helps selecting the right download.
+     * 
+     * @param downloadOSQualifier
+     *            Qualifier.
+     */
+    public void setDownloadOSName(String downloadOSQualifier) {
+        this.downloadOSQualifier = downloadOSQualifier;
+    }
+
+    /**
+     * Determines if release candidates (versions with "-rc") should be included.
+     * 
+     * @return {@code true} if RC candidates should be included.
+     */
+    public String getIncludeRc() {
+        return includeRc;
+    }
+
+    /**
+     * Determines if release candidates (versions with "-rc") should be included.
+     * 
+     * @return {@code true} if RC candidates should be included.
+     */
+    public boolean isIncludeRc() {
+        if (includeRc == null) {
+            return false;
+        }
+        return Boolean.valueOf(includeRc);
+    }
+    
+    /**
+     * Determines if release candidates (versions with "-rc") should be included.
+     * 
+     * @param includeRc
+     *            {@code true} if RC candidates should be included.
+     */
+    public void setIncludeRc(String includeRc) {
+        this.includeRc = includeRc;
+    }
+
+    /**
+     * Returns the URl of the version JSON file.
+     * 
+     * @return URl of the version JSON file.
+     */
+    public String getVersionUrl() {
+        return versionUrl;
+    }
+
+    /**
+     * Sets the URl of the version JSON file.
+     * 
+     * @param versionUrl
+     *            URl of the version JSON file.
+     */
+    public void setVersionUrl(String versionUrl) {
+        this.versionUrl = versionUrl;
+    }
+
+    /**
+     * Writes the process ID of the event store to a file in the target directory.
      * 
      * @param pid
      *            PID to write.
@@ -471,19 +357,16 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Error writing the PID to file.
      */
-    protected final void writePid(final String pid)
-            throws MojoExecutionException {
+    protected final void writePid(final String pid) throws MojoExecutionException {
         try {
             FileUtils.write(getPidFile(), pid);
         } catch (final IOException ex) {
-            throw new MojoExecutionException("Couldn't write the PID '" + pid
-                    + "' to file: " + getPidFile(), ex);
+            throw new MojoExecutionException("Couldn't write the PID '" + pid + "' to file: " + getPidFile(), ex);
         }
     }
 
     /**
-     * Reads the process ID of the event store from a file in the target
-     * directory.
+     * Reads the process ID of the event store from a file in the target directory.
      * 
      * @return PID from file.
      * 
@@ -494,8 +377,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         try {
             return FileUtils.readFileToString(getPidFile());
         } catch (final IOException ex) {
-            throw new MojoExecutionException(
-                    "Couldn't read the PID from file: " + getPidFile(), ex);
+            throw new MojoExecutionException("Couldn't read the PID from file: " + getPidFile(), ex);
         }
     }
 
@@ -508,8 +390,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     protected final void deletePid() throws MojoExecutionException {
         final boolean ok = getPidFile().delete();
         if (!ok) {
-            throw new MojoExecutionException(
-                    "Couldn't delete the PID file: " + getPidFile());
+            throw new MojoExecutionException("Couldn't delete the PID file: " + getPidFile());
         }
     }
 
@@ -533,12 +414,10 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * @throws MojoExecutionException
      *             Error splitting the string into lines.
      */
-    protected final List<String> asList(final String str)
-            throws MojoExecutionException {
+    protected final List<String> asList(final String str) throws MojoExecutionException {
         try {
             final List<String> lines = new ArrayList<String>();
-            final LineNumberReader reader = new LineNumberReader(
-                    new StringReader(str));
+            final LineNumberReader reader = new LineNumberReader(new StringReader(str));
             String line;
             while ((line = reader.readLine()) != null) {
                 lines.add(line);

@@ -36,52 +36,58 @@ public class DownloadsTest {
     @Test
     public void testDownload() throws IOException {
 
-	// PREPARE
-	final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
-	final Downloads testee = new Downloads(versionURL,
-		new File(Utils4J.getTempDir(),
-			"event-store-versions-" + UUID.randomUUID() + ".json"));
+        // PREPARE
+        final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
+        final Downloads testee = new Downloads(versionURL,
+                new File(Utils4J.getTempDir(), "event-store-versions-" + UUID.randomUUID() + ".json"));
 
-	// TEST
-	testee.parse();
+        // TEST
+        testee.parse();
 
-	// VERIFY
-	assertThat(testee.getOsList()).containsExactlyInAnyOrder(
-		new DownloadOS("ubuntu-18.04"), new DownloadOS("ubuntu-16.04"),
-		new DownloadOS("ubuntu-14.04"), new DownloadOS("osx-10.10"),
-		new DownloadOS("win"));
-	final DownloadOS ubuntu = testee.findOS("ubuntu-16.04");
-	assertThat(ubuntu.getOS()).isEqualTo("ubuntu-16.04");
-	assertThat(ubuntu.getCurrentVersion()).isNotNull();
+        // VERIFY
+        assertThat(testee.getVersions()).contains(new DownloadVersion("4.1.1"), new DownloadVersion("3.9.4"),
+                new DownloadVersion("2.0.1"));
+        final DownloadVersion version = testee.findVersion("4.1.0");
+        assertThat(version.getName()).isEqualTo("4.1.0");
+        assertThat(version.getOSFamilies()).hasSize(2);
 
     }
 
     @Test
     public void testLocal() throws IOException {
 
-	// PREPARE
-	final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
-	final Downloads testee = new Downloads(versionURL,
-		new File("./target/test-classes/test-download.json"));
+        // PREPARE
+        final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
+        final Downloads testee = new Downloads(versionURL, new File("./target/test-classes/test-download.json"));
 
-	// TEST
-	testee.parse();
+        // TEST
+        testee.parse();
 
-	// VERIFY
-	assertThat(testee.getOsList()).containsExactlyInAnyOrder(
-		new DownloadOS("ubuntu-14.04"), new DownloadOS("osx-10.10"),
-		new DownloadOS("win"));
-	final DownloadOS ubuntu = testee.findOS("ubuntu-14.04");
-	assertThat(ubuntu.getOS()).isEqualTo("ubuntu-14.04");
-	assertThat(ubuntu.getCurrentVersion()).isEqualTo("3.8.1");
-	assertThat(ubuntu.findVersion("3.8.1")).isNotNull();
-	final DownloadVersion version = ubuntu.findVersion("3.0.5");
-	assertThat(version).isNotNull();
-	assertThat(version.getVersion()).isEqualTo("3.0.5");
-	assertThat(version.getUrl()).isEqualTo(
-		"http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz");
+        // VERIFY
+        final DownloadVersion version = testee.findVersion("4.1.1");
+        assertThat(version.getName()).isEqualTo("4.1.1");
+        final DownloadOSFamily family = version.findFamily("Linux");
+        assertThat(family.getName()).isEqualTo("Linux");
+        final DownloadOS download = family.findDownload("Ubuntu 14.04");
+        assertThat(download.getName()).isEqualTo("Ubuntu 14.04");
+        assertThat(download.getUrl()).isEqualTo("https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.1.1.tar.gz");
 
     }
+    
+    @Test
+    public void testFindLatest() throws IOException {
+        
+        // PREPARE
+        final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
+        final Downloads testee = new Downloads(versionURL, new File("./target/test-classes/test-download.json"));
+        testee.parse();
+        
+        // TEST & VERIFY
+        assertThat(testee.findLatest(true).getName()).isEqualTo("5.0.0-rc1");
+        assertThat(testee.findLatest(false).getName()).isEqualTo("4.1.1-hotfix1");
+        
+    }
+    
 
 }
 // CHECKSTYLE:ON

@@ -4,8 +4,8 @@
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 3 of the License, or (at your option) any
- * later version.
+ * Software Foundation; either name 3 of the License, or (at your option) any
+ * later name.
  *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
@@ -17,113 +17,82 @@
  */
 package org.fuin.esmp;
 
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
- * Operation system version of the Event Store that is available for download.
- * Equals and hash code are based on the OS name.
+ * OS name of the Event Store that is available for download. Equals and hash code are based on the name.
  */
 public final class DownloadOS implements Comparable<DownloadOS> {
 
-    private final String os;
+    private final String name;
 
-    private final String currentVersion;
-
-    private final List<DownloadVersion> versions;
+    private final String url;
 
     /**
      * Constructor with mandatory data.
      * 
-     * @param os
-     *            OS (like "ubuntu-14.04", "osx-10.10" or "win").
+     * @param name
+     *            Name (like "3.1.0").
      */
-    public DownloadOS(final String os) {
-        this(os, null, null);
-    }
-
+    public DownloadOS(final String name) {
+        this(name, "http://localhost/none.json");
+    }    
+    
     /**
      * Constructor with all data.
      * 
-     * @param os
-     *            OS (like "ubuntu-14.04", "osx-10.10" or "win").
-     * @param currentVersion
-     *            Latest version.
-     * @param versions
-     *            List of all versions.
+     * @param name
+     *            Name (like "3.1.0").
+     * @param url
+     *            Download URL.
      */
-    public DownloadOS(final String os, final String currentVersion, final List<DownloadVersion> versions) {
+    public DownloadOS(final String name, final String url) {
         super();
-        if (os == null) {
-            throw new IllegalArgumentException("os == null");
+        if (name == null) {
+            throw new IllegalArgumentException("name == null");
         }
-        this.os = os;
-        this.currentVersion = currentVersion;
-        this.versions = versions;
+        if (url == null) {
+            throw new IllegalArgumentException("url == null");
+        }
+        this.name = name;
+        this.url = url;
     }
 
     /**
-     * Returns the OS name.
+     * Returns the name.
      * 
-     * @return OS (like "ubuntu-14.04", "osx-10.10" or "win") - Never
-     *         <code>null</code>.
+     * @return Name (like "Windows 64-bit (.NET 4.7.1+)", "Ubuntu 14.04", "Ubuntu 18.04 64-bit (.deb)").
      */
-    public final String getOS() {
-        return os;
+    public final String getName() {
+        return name;
     }
 
     /**
-     * Returns the latest version.
+     * Returns the download URL string.
      * 
-     * @return Version or <code>null</code>.
+     * @return Archive file URL string.
      */
-    public final String getCurrentVersion() {
-        return currentVersion;
+    public final String getUrl() {
+        return url;
     }
 
     /**
-     * Returns the list of available versions.
+     * Returns the download URL.
      * 
-     * @return All downloadable versions - or <code>null</code>.
+     * @return Archive file URL.
      */
-    public final List<DownloadVersion> getVersions() {
-        return versions;
-    }
-
-    /**
-     * Returns the latest version.
-     * 
-     * @return Latest version - or <code>null</code> if there are no versions.
-     */
-    public final DownloadVersion getLatestVersion() {
-        return findVersion(currentVersion);
-    }
-    
-    /**
-     * Returns the version with a given number.
-     * 
-     * @param number
-     *            Version number to find - Cannot be <code>null</code>.
-     * 
-     * @return Found instance or <code>null</code> if no OS with that name was
-     *         found.
-     */
-    public DownloadVersion findVersion(final String number) {
-        if (number == null) {
-            throw new IllegalArgumentException("number == null");
+    public final URL getURL() {
+        try {
+            return new URL(url);
+        } catch (final MalformedURLException ex) {
+            throw new RuntimeException("Cannot convert URL: " + url, ex);
         }
-        if (versions == null) {
-            return null;
-        }
-        final int idx = versions.indexOf(new DownloadVersion(number, "-"));
-        if (idx < 0) {
-            return null;
-        }
-        return versions.get(idx);
     }
 
     @Override
     public final int hashCode() {
-        return os.hashCode();
+        return name.hashCode();
     }
 
     @Override
@@ -138,17 +107,17 @@ public final class DownloadOS implements Comparable<DownloadOS> {
             return false;
         }
         final DownloadOS other = (DownloadOS) obj;
-        return os.equals(other.os);
-    }
-
-    @Override
-    public final int compareTo(final DownloadOS other) {
-        return os.compareTo(other.os);
+        return name.equals(other.name);
     }
 
     @Override
     public final String toString() {
-        return os;
+        return name;
+    }
+
+    @Override
+    public final int compareTo(final DownloadOS other) {
+        return name.compareTo(other.name);
     }
 
 }

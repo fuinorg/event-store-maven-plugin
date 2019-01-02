@@ -18,9 +18,10 @@
 package org.fuin.esmp;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -36,25 +37,107 @@ public class DownloadVersionTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.forClass(DownloadVersion.class).suppress(Warning.NULL_FIELDS, Warning.ALL_FIELDS_SHOULD_BE_USED)
-                .verify();
+                .withPrefabValues(DownloadOSFamily.class, new DownloadOSFamily("Linux"), new DownloadOSFamily("Windows")).verify();
     }
 
     @Test
-    public void testConstruction() throws MalformedURLException {
+    public void testConstruction() {
 
         // PREPARE
         final String version = "1.2.3";
-        final String url = "http://www.fuin.org/dummy.json";
+        final List<DownloadOSFamily> osFamilies = new ArrayList<>();
+        final DownloadOSFamily linux = new DownloadOSFamily("Linux");
+        osFamilies.add(linux);
 
         // TEST
-        final DownloadVersion testee = new DownloadVersion(version, url);
+        DownloadVersion testee = new DownloadVersion(version, osFamilies);
 
         // VERIFY
-        assertThat(testee.getVersion()).isEqualTo(version);
-        assertThat(testee.getUrl()).isEqualTo(url);
-        assertThat(testee.getURL()).isEqualTo(new URL(url));
+        assertThat(testee.getName()).isEqualTo(version);
+        assertThat(testee.getOSFamilies()).containsOnly(linux);
+
+        // TEST
+        testee = new DownloadVersion(version);
+
+        // VERIFY
+        assertThat(testee.getName()).isEqualTo(version);
+        assertThat(testee.getOSFamilies()).isEmpty();
 
     }
 
+    @Test
+    public void testAdd() {
+
+        // PREPARE
+        final String version = "1.2.3";
+        final List<DownloadOSFamily> osFamilies = new ArrayList<>();
+        DownloadVersion testee = new DownloadVersion(version, osFamilies);
+
+        final DownloadOSFamily linux = new DownloadOSFamily("Linux");
+        final DownloadOSFamily windows = new DownloadOSFamily("Windows");
+
+        // TEST
+        osFamilies.add(linux);
+        osFamilies.add(windows);
+
+        // VERIFY
+        assertThat(testee.getName()).isEqualTo(version);
+        assertThat(testee.getOSFamilies()).containsExactlyInAnyOrder(linux, windows);
+
+    }
+
+    @Test
+    public void testSeal() {
+
+        // PREPARE
+        final String version = "1.2.3";
+        DownloadVersion testee = new DownloadVersion(version);
+
+        final DownloadOSFamily linux = new DownloadOSFamily("Linux");
+        final DownloadOSFamily windows = new DownloadOSFamily("Windows");
+        testee.addOSFamily(linux);
+
+        // TEST & VERIFY
+        testee.seal();
+        try {
+            testee.addOSFamily(windows);
+            fail();
+        } catch (final IllegalStateException ex) {
+            assertThat(ex.getMessage()).isEqualTo("The instance is sealed");
+        }
+
+    }
+
+    @Test
+    public void testFind() {
+
+        // PREPARE
+        final String version = "1.2.3";
+        DownloadVersion testee = new DownloadVersion(version);
+
+        final DownloadOSFamily linux = new DownloadOSFamily("Linux");
+        final DownloadOSFamily windows = new DownloadOSFamily("Windows");
+        testee.addOSFamily(linux);
+        testee.addOSFamily(windows);
+        
+        // TEST
+        final DownloadOSFamily family = testee.findFamily("Linux");
+
+        // VERIFY
+        assertThat(family).isSameAs(linux);
+        
+    }
+
+    @Test
+    public void testIsRelease() {
+
+        assertThat(new DownloadVersion("5.0.0-rc1").isRelease()).isFalse();
+        assertThat(new DownloadVersion("4.1.1-hotfix1").isRelease()).isTrue();
+        assertThat(new DownloadVersion("4.1.1").isRelease()).isTrue();
+        assertThat(new DownloadVersion("3.0.0-rc9").isRelease()).isFalse();
+        assertThat(new DownloadVersion("1.0.0").isRelease()).isTrue();
+        
+    }
+    
 }
 // CHECKSTYLE:ON

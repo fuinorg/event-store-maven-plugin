@@ -1,312 +1,794 @@
-[
-	{
-		"os": "ubuntu-14.04",
-		"currentVersion": "3.8.1",
-		"downloads": [
-			{
-				"version": "3.8.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.1.tar.gz"
-			},
-			{
-				"version": "3.8.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.8.0.tar.gz"
-			},
-			{
-				"version": "3.7.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.7.0.tar.gz"
-			},
-			{
-				"version": "3.6.3",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.3.tar.gz"
-			},
-			{
-				"version": "3.6.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.2.tar.gz"
-			},
-			{
-				"version": "3.6.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.1.tar.gz"
-			},
-			{
-				"version": "3.6.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.6.0.tar.gz"
-			},
-			{
-				"version": "3.5.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.5.0.tar.gz"
-			},
-			{
-				"version": "3.4.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v3.4.0.tar.gz"
-			},
-			{
-				"version": "3.3.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.1.tar.gz"
-			},
-			{
-				"version": "3.3.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz"
-			},
-			{
-				"version": "3.2.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.2.tar.gz"
-			},
-			{
-				"version": "3.2.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.2.0.tar.gz"
-			},
-			{
-				"version": "3.1.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.1.0.tar.gz"
-			},
-			{
-				"version": "3.0.5",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.5.tar.gz"
-			},
-			{
-				"version": "3.0.4",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.4.tar.gz"
-			},
-			{
-				"version": "3.0.3",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.3.tar.gz"
-			},
-			{
-				"version": "3.0.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.2.tar.gz"
-			},
-			{
-				"version": "3.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.1.tar.gz"
-			},
-			{
-				"version": "3.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0.tar.gz"
-			},
-			{
-				"version": "3.0.0-rc9",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0-rc9.tar.gz"
-			},
-			{
-				"version": "3.0.0-rc2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v3.0.0-rc2.tar.gz"
-			},
-			{
-				"version": "2.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v2.0.1.tar.gz"
-			},
-			{
-				"version": "2.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v2.0.0.tar.gz"
-			},
-			{
-				"version": "1.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v1.0.1.tar.gz"
-			},
-			{
-				"version": "1.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Linux-v1.0.0.tar.gz"
-			}
-		]
-	},
-	{
-		"os": "osx-10.10",
-		"currentVersion": "3.8.1",
-		"downloads": [
-			{
-				"version": "3.8.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.8.1.tar.gz"
-			},
-			{
-				"version": "3.8.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.8.0.tar.gz"
-			},
-			{
-				"version": "3.7.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.7.0.tar.gz"
-			},
-			{
-				"version": "3.6.3",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.3.tar.gz"
-			},
-			{
-				"version": "3.6.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.2.tar.gz"
-			},
-			{
-				"version": "3.6.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.1.tar.gz"
-			},
-			{
-				"version": "3.6.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.6.0.tar.gz"
-			},
-			{
-				"version": "3.5.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.5.0.tar.gz"
-			},
-			{
-				"version": "3.4.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.4.0.tar.gz"
-			},
-			{
-				"version": "3.3.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.3.1.tar.gz"
-			},
-			{
-				"version": "3.3.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.3.0.tar.gz"
-			},
-			{
-				"version": "3.2.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.2.2.tar.gz"
-			},
-			{
-				"version": "3.2.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.2.0.tar.gz"
-			},
-			{
-				"version": "3.1.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-MacOSX-v3.1.0.tar.gz"
-			},
-			{
-				"version": "3.0.5",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.5.tar.gz"
-			},
-			{
-				"version": "3.0.4",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.4.tar.gz"
-			},
-			{
-				"version": "3.0.3",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.3.tar.gz"
-			},
-			{
-				"version": "3.0.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.2.tar.gz"
-			},
-			{
-				"version": "3.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.1.tar.gz"
-			},
-			{
-				"version": "3.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0.tar.gz"
-			},
-			{
-				"version": "3.0.0-rc9",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0-rc9.tar.gz"
-			},
-			{
-				"version": "3.0.0-rc2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Mac-v3.0.0-rc2.tar.gz"
-			}
-		]
-	},
-	{
-		"os": "win",
-		"currentVersion": "3.8.1",
-		"downloads": [
-			{
-				"version": "3.8.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.1.zip"
-			},
-			{
-				"version": "3.8.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.8.0.zip"
-			},
-			{
-				"version": "3.7.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.7.0.zip"
-			},
-			{
-				"version": "3.6.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.2.zip"
-			},
-			{
-				"version": "3.6.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.1.zip"
-			},
-			{
-				"version": "3.6.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.6.0.zip"
-			},
-			{
-				"version": "3.5.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.5.0.zip"
-			},
-			{
-				"version": "3.4.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.4.0.zip"
-			},
-			{
-				"version": "3.3.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.1.zip"
-			},
-			{
-				"version": "3.3.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
-			},
-			{
-				"version": "3.2.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip"
-			},
-			{
-				"version": "3.2.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.2.0.zip"
-			},
-			{
-				"version": "3.1.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.1.0.zip"
-			},
-			{
-				"version": "3.0.5",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.5.zip"
-			},
-			{
-				"version": "3.0.4",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.4.zip"
-			},
-			{
-				"version": "3.0.3",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.3.zip"
-			},
-			{
-				"version": "3.0.2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.2.zip"
-			},
-			{
-				"version": "3.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.1.zip"
-			},
-			{
-				"version": "3.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0.zip"
-			},
-			{
-				"version": "3.0.0-rc9",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0-rc9.zip"
-			},
-			{
-				"version": "3.0.0-rc2",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.0.0-rc2.zip"
-			},
-			{
-				"version": "2.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v2.0.1.zip"
-			},
-			{
-				"version": "2.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v2.0.0.zip"
-			},
-			{
-				"version": "1.0.1",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v1.0.1.zip"
-			},
-			{
-				"version": "1.0.0",
-				"url": "http://download.geteventstore.com/binaries/EventStore-OSS-Win-v1.0.0.zip"
-			}
-		]
-	}
-]
+{
+    "5.0.0-rc1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/win/EventStore-OSS-Win-v5.0.0-rc1.zip",
+                "name": "Windows 64-bit (.NET 4.7.1+)"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/macos/EventStore-OSS-MacOS-Standalone-v5.0.0-rc1.tar.gz",
+                "name": "macOS 10.9+ (tarball)"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/ubuntu/trusty/eventstore-oss_5.0.0-rc1-1_amd64.deb",
+                "name": "Ubuntu 14.04 64-bit (.deb)"
+            },
+            {
+                "url": "https://eventstore.org/downloads/ubuntu/xenial/eventstore-oss_5.0.0-rc1-1_amd64.deb",
+                "name": "Ubuntu 16.04 64-bit (.deb)"
+            },
+            {
+                "url": "https://eventstore.org/downloads/ubuntu/bionic/eventstore-oss_5.0.0-rc1-1_amd64.deb",
+                "name": "Ubuntu 18.04 64-bit (.deb)"
+            },
+            {
+                "url": "https://eventstore.org/downloads/el7/EventStore-OSS-Linux-Mono-v5.0.0-rc1.tar.gz",
+                "name": "Linux 64-bit (mono 5.16.0.220)"
+            }
+        ]
+    },
+    "4.1.1-hotfix1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.1.1-hotfix1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-18.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 18.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.1.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.1.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-18.04-v4.1.1.tar.gz",
+                "name": "Ubuntu 18.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.1.1.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.1.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.1.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.1.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.1.0.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.1.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.3-hotfix1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.3-hotfix1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.3-hotfix1.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.3-hotfix1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.3": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.3.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.3.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.3.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.2.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.2.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.1-hotfix4": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.1-hotfix4.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.1-hotfix4.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.1-hotfix4.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.1.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "4.0.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.0.0.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.0.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.9.4": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.9.4.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.9.4.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.9.4.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.9.3": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.9.3.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.9.3.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.9.3.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.9.2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.9.2.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.9.2.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.9.2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.9.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.9.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.9.1.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.9.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.9.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.9.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.9.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.9.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.8.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.8.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.8.1.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.8.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.8.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.8.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.8.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.8.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.7.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.7.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.7.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.7.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.6.3": {
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.6.3.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.6.3.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.6.2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.6.2.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.6.2.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.6.2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.6.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.6.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.6.1.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.6.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.6.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.6.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.6.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.6.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.5.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.5.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.5.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.5.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.4.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.4.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.4.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v3.4.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.3.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.3.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.3.1.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-v3.3.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.3.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.3.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.3.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-v3.3.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.2.2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.3.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.2.2.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-v3.2.2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.2.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.2.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.2.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-v3.2.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.1.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.1.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-MacOSX-v3.1.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-v3.1.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.5": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.5.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.5.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.5.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.4": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.4.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.4.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.4.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.3": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.3.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.3.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.3.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.2.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.2.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.1.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.0-rc9": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.0-rc9.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.0-rc9.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.0-rc9.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.0-rc2": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.0-rc2.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.0-rc2.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.0-rc2.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "3.0.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v3.0.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Mac": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Mac-v3.0.0.tar.gz",
+                "name": "macOS"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v3.0.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "2.0.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v2.0.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v2.0.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "2.0.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v2.0.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v2.0.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "1.0.1": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v1.0.1.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v1.0.1.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    },
+    "1.0.0": {
+        "Windows": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Win-v1.0.0.zip",
+                "name": "Windows"
+            }
+        ],
+        "Linux": [
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Linux-v1.0.0.tar.gz",
+                "name": "Ubuntu 14.04"
+            }
+        ]
+    }
+}
