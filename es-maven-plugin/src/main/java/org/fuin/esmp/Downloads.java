@@ -117,7 +117,9 @@ public final class Downloads {
                         final JsonObject download = downloads.getJsonObject(i);
                         final String name = download.getString("name");
                         final String url = download.getString("url");
-                        family.addOS(new DownloadOS(name, url));
+                        if (url.endsWith(".tar.gz") || url.endsWith(".zip")) {
+                            family.addOS(new DownloadOS(name, url));
+                        }
                     }
                 }
 

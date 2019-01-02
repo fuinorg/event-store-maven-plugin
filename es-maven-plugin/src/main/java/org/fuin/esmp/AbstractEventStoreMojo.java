@@ -67,7 +67,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * this value. Defaults to "Ubuntu" in case of a Linux OS.
      */
     @Parameter(name = "download-os-qualifier")
-    private String downloadOSQualifier;
+    private String downloadOsQualifier;
 
     /**
      * Determines if release candidates (versions with "-rc") should be included.
@@ -110,7 +110,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
         init();
         LOG.info("version-url={}", versionUrl);
         LOG.info("download-url={}", downloadUrl);
-        LOG.info("\n" + "        LOG={}", downloadOSQualifier);
+        LOG.info("\n" + "        LOG={}", downloadOsQualifier);
         LOG.info("includeRc={}", includeRc);
         LOG.info("target-dir={}", targetDir);
         LOG.info("event-store-dir={}", eventStoreDir);
@@ -143,13 +143,13 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     // CHECKSTYLE:ON
 
     private void initDownloadOSQualifier() throws MojoExecutionException {
-        if (downloadOSQualifier == null) {
+        if (downloadOsQualifier == null) {
             if (OS.isFamilyWindows()) {
-                downloadOSQualifier = "Windows";
+                downloadOsQualifier = "Windows";
             } else if (OS.isFamilyMac()) {
-                downloadOSQualifier = "macOS";
+                downloadOsQualifier = "macOS";
             } else if (OS.isFamilyUnix()) {
-                downloadOSQualifier = "Ubuntu";
+                downloadOsQualifier = "Ubuntu";
             } else {
                 throw new MojoExecutionException("Unknown OS - You must use the 'archive-name' parameter");
             }
@@ -188,9 +188,9 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
                 throw new MojoExecutionException("Couldn't find OS family '" + os + "' in '" + downloads.getJsonDownloadsFile() + "'");
             }
 
-            final DownloadOS download = family.findLatestDownload(downloadOSQualifier);
+            final DownloadOS download = family.findLatestDownload(downloadOsQualifier);
             if (download == null) {
-                throw new MojoExecutionException("Couldn't find eyntr with download OS qualifier '" + downloadOSQualifier + "' (version='"
+                throw new MojoExecutionException("Couldn't find eyntr with download OS qualifier '" + downloadOsQualifier + "' (version='"
                         + version + "', family='" + family + "') in '" + downloads.getJsonDownloadsFile() + "'");
             }
 
@@ -284,18 +284,18 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
      * 
      * @return Qualifier.
      */
-    public String getDownloadOSQualifier() {
-        return downloadOSQualifier;
+    public String getDownloadOsQualifier() {
+        return downloadOsQualifier;
     }
 
     /**
      * Sets the qualifier that helps selecting the right download.
      * 
-     * @param downloadOSQualifier
+     * @param downloadOsQualifier
      *            Qualifier.
      */
-    public void setDownloadOSName(String downloadOSQualifier) {
-        this.downloadOSQualifier = downloadOSQualifier;
+    public void setDownloadOsQualifier(String downloadOsQualifier) {
+        this.downloadOsQualifier = downloadOsQualifier;
     }
 
     /**

@@ -130,7 +130,7 @@ public final class DownloadOSFamily implements Comparable<DownloadOSFamily> {
                 return download;
             }
         }
-        throw new IllegalStateException("No downloads found");
+        throw new IllegalStateException("No downloads found for qualifier '" + qualifier + "'");
     }
 
     @Override

@@ -18,6 +18,7 @@
 package org.fuin.esmp.maven;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,59 +35,98 @@ public class EventStoreMojosTest {
 
     // CHECKSTYLE:OFF Test
 
-    private static final File TEST_DIR = new File("target/test-classes/test-project");
+    @Test
+    public void testMojo() throws VerificationException, IOException {
 
-    private Verifier verifier;
+        // PREPARE
+        final Verifier verifier = new Verifier(new File("target/test-classes/test-project").getAbsolutePath(), true);
+        try {
+            verifier.deleteArtifacts("org.fuin.esmp", "esmp-test-project", "0.0.1");
+            
+            final List<String> goals = new ArrayList<String>();
+            goals.add("clean");
+            goals.add("verify");
+    
+            // TEST
+            verifier.executeGoals(goals);
+    
+            // VERIFY
+            System.out.println(
+                    "=================================== PLUGIN OUTPUT BEGIN ===================================");
+            final List<String> lines = verifier.loadFile(verifier.getBasedir(), verifier.getLogFileName(), false);
+            for (final String line : lines) {
+                System.out.println(line);
+            }
+            System.out.println(
+                    "=================================== PLUGIN OUTPUT END =====================================");
+            verifier.verifyErrorFreeLog();
+    
+            // download
+            verifier.verifyTextInLog("Dowloading archive:");
+            verifier.verifyTextInLog("Archive copied from ");
+            verifier.verifyTextInLog("Unpack event store to target directory:");
+    
+            // certificate
+            verifier.verifyTextInLog("Certificate successfully created");
+            
+            // start
+            verifier.verifyTextInLog("Event store process ID:");
+    
+            // stop
+            verifier.verifyTextInLog("Event store successfully stopped");
+            
+        } finally {
+            verifier.displayStreamBuffers();
+        }
 
-    @Before
-    public void setup() throws Exception {
-        verifier = new Verifier(TEST_DIR.getAbsolutePath(), true);
-        verifier.deleteArtifacts("org.fuin.esmp", "esmp-test-project", "0.0.1");
-    }
-
-    @After
-    public void teardown() throws VerificationException {
-        verifier.displayStreamBuffers();
     }
 
     @Test
-    public void testMojo() throws VerificationException {
+    public void testMojoConfig() throws VerificationException, IOException {
 
         // PREPARE
-        final List<String> goals = new ArrayList<String>();
-        goals.add("clean");
-        goals.add("verify");
-
-        // TEST
-        verifier.executeGoals(goals);
-
-        // VERIFY
-        System.out.println(
-                "=================================== PLUGIN OUTPUT BEGIN ===================================");
-        final List<String> lines = verifier.loadFile(verifier.getBasedir(), verifier.getLogFileName(), false);
-        for (final String line : lines) {
-            System.out.println(line);
+        final Verifier verifier = new Verifier(new File("target/test-classes/test-project-2").getAbsolutePath(), true);
+        try {
+            verifier.deleteArtifacts("org.fuin.esmp", "esmp-test-project-2", "0.0.1");
+            
+            final List<String> goals = new ArrayList<String>();
+            goals.add("clean");
+            goals.add("verify");
+    
+            // TEST
+            verifier.executeGoals(goals);
+    
+            // VERIFY
+            System.out.println(
+                    "=================================== PLUGIN OUTPUT BEGIN ===================================");
+            final List<String> lines = verifier.loadFile(verifier.getBasedir(), verifier.getLogFileName(), false);
+            for (final String line : lines) {
+                System.out.println(line);
+            }
+            System.out.println(
+                    "=================================== PLUGIN OUTPUT END =====================================");
+            verifier.verifyErrorFreeLog();
+    
+            // download
+            verifier.verifyTextInLog("Dowloading archive:");
+            verifier.verifyTextInLog("Archive copied from ");
+            verifier.verifyTextInLog("Unpack event store to target directory:");
+    
+            // certificate
+            verifier.verifyTextInLog("Certificate successfully created");
+            
+            // start
+            verifier.verifyTextInLog("Event store process ID:");
+    
+            // stop
+            verifier.verifyTextInLog("Event store successfully stopped");
+            
+        } finally {
+            verifier.displayStreamBuffers();
         }
-        System.out.println(
-                "=================================== PLUGIN OUTPUT END =====================================");
-        verifier.verifyErrorFreeLog();
-
-        // download
-        verifier.verifyTextInLog("Dowloading archive:");
-        verifier.verifyTextInLog("Archive copied from ");
-        verifier.verifyTextInLog("Unpack event store to target directory:");
-
-        // certificate
-        verifier.verifyTextInLog("Certificate successfully created");
-        
-        // start
-        verifier.verifyTextInLog("Event store process ID:");
-
-        // stop
-        verifier.verifyTextInLog("Event store successfully stopped");
 
     }
-
+    
     // CHECKSTYLE:OFF Test
 
 }
