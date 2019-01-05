@@ -20,7 +20,10 @@ package org.fuin.esmp;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,23 +135,26 @@ public class DownloadOSFamilyTest {
 
         // TEST
         final DownloadOS download = testee.findDownload("Ubuntu 16.04 64-bit (.deb)");
-        
+
         // VERIFY
         assertThat(download).isSameAs(v16);
-
 
     }
 
     @Test
-    public void testGetLatestDownload() {
+    public void testFindLatestDownload() {
 
         // PREPARE
         final String name = "Linux";
         final DownloadOSFamily testee = new DownloadOSFamily(name);
-        testee.addOS(new DownloadOS("Ubuntu 14.04 64-bit (.deb)", "https://eventstore.org/downloads/ubuntu/trusty/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
-        testee.addOS(new DownloadOS("Ubuntu 16.04 64-bit (.deb)", "https://eventstore.org/downloads/ubuntu/xenial/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
-        testee.addOS(new DownloadOS("Ubuntu 18.04 64-bit (.deb)", "https://eventstore.org/downloads/ubuntu/bionic/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
-        testee.addOS(new DownloadOS("Linux 64-bit (mono 5.16.0.220)", "https://eventstore.org/downloads/el7/EventStore-OSS-Linux-Mono-v5.0.0-rc1.tar.gz"));
+        testee.addOS(new DownloadOS("Ubuntu 16.04 64-bit (.deb)",
+                "https://eventstore.org/downloads/ubuntu/xenial/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
+        testee.addOS(new DownloadOS("Ubuntu 14.04 64-bit (.deb)",
+                "https://eventstore.org/downloads/ubuntu/trusty/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
+        testee.addOS(new DownloadOS("Linux 64-bit (mono 5.16.0.220)",
+                "https://eventstore.org/downloads/el7/EventStore-OSS-Linux-Mono-v5.0.0-rc1.tar.gz"));
+        testee.addOS(new DownloadOS("Ubuntu 18.04 64-bit (.deb)",
+                "https://eventstore.org/downloads/ubuntu/bionic/eventstore-oss_5.0.0-rc1-1_amd64.deb"));
         testee.seal();
 
         // TEST & VERIFY
@@ -156,9 +162,23 @@ public class DownloadOSFamilyTest {
         assertThat(testee.findLatestDownload("Linux").getName()).isEqualTo("Linux 64-bit (mono 5.16.0.220)");
         assertThat(testee.findLatestDownload("Ubuntu 16").getName()).isEqualTo("Ubuntu 16.04 64-bit (.deb)");
         assertThat(testee.findLatestDownload("Ubuntu 14").getName()).isEqualTo("Ubuntu 14.04 64-bit (.deb)");
-        assertThat(testee.findLatestDownload(null).getName()).isEqualTo("Linux 64-bit (mono 5.16.0.220)");
-        
+        assertThat(testee.findLatestDownload(null).getName()).isEqualTo("Ubuntu 18.04 64-bit (.deb)");
+
     }
-    
+
+    @Test
+    public void testFindLatestDownloadFromFile() throws IOException {
+
+        // PREPARE
+        final URL versionURL = new URL(AbstractEventStoreMojo.VERSION_URL);
+        final Downloads downloads = new Downloads(versionURL, new File("./target/test-classes/test-download.json"));
+        downloads.parse();
+
+        // TEST & VERIFY
+        assertThat(downloads.findVersion("4.1.1-hotfix1").findFamily("Linux").findLatestDownload(null).getName()).isEqualTo("Ubuntu 18.04");
+        assertThat(downloads.findVersion("5.0.0-rc1").findFamily("Linux").findLatestDownload("Ubuntu").getName()).isEqualTo("Ubuntu 18.04");
+
+    }
+
 }
 // CHECKSTYLE:ON

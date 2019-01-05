@@ -19,6 +19,7 @@ package org.fuin.esmp;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public final class DownloadOSFamily implements Comparable<DownloadOSFamily> {
             throw new IllegalArgumentException("downloads == null");
         }
         this.name = name;
-        this.downloads = downloads;
+        this.downloads = new ArrayList<>(downloads);
     }
 
     /**
@@ -97,6 +98,12 @@ public final class DownloadOSFamily implements Comparable<DownloadOSFamily> {
      * The instance is sealed and no changes are allowed any more.
      */
     final void seal() {
+        Collections.sort(downloads, new Comparator<DownloadOS>() {
+            @Override
+            public int compare(DownloadOS o1, DownloadOS o2) {
+                return o1.compareTo(o2) * -1;
+            }
+        });
         sealed = true;
     }
 
@@ -124,8 +131,7 @@ public final class DownloadOSFamily implements Comparable<DownloadOSFamily> {
      * @return Latest download.
      */
     public DownloadOS findLatestDownload(final String qualifier) {
-        for (int i = downloads.size() - 1; i >= 0; i--) {
-            final DownloadOS download = downloads.get(i);
+        for (final DownloadOS download : downloads) {
             if (qualifier == null || download.getName().contains(qualifier)) {
                 return download;
             }

@@ -59,7 +59,7 @@ public final class DownloadVersion implements Comparable<DownloadVersion> {
             throw new IllegalArgumentException("osFamilies == null");
         }
         this.name = name;
-        this.osFamilies = osFamilies;
+        this.osFamilies = new ArrayList<>(osFamilies);
     }
 
     /**

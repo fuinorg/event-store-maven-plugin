@@ -14,6 +14,18 @@
         ],
         "Linux": [
             {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-18.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 18.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-16.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 16.04"
+            },
+            {
+                "url": "https://eventstore.org/downloads/EventStore-OSS-Ubuntu-14.04-v4.1.1-hotfix1.tar.gz",
+                "name": "Ubuntu 14.04"
+            },
+            {
                 "url": "https://eventstore.org/downloads/ubuntu/trusty/eventstore-oss_5.0.0-rc1-1_amd64.deb",
                 "name": "Ubuntu 14.04 64-bit (.deb)"
             },

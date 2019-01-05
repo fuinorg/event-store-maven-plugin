@@ -77,8 +77,8 @@ public class DownloadVersionTest {
         final DownloadOSFamily windows = new DownloadOSFamily("Windows");
 
         // TEST
-        osFamilies.add(linux);
-        osFamilies.add(windows);
+        testee.addOSFamily(linux);
+        testee.addOSFamily(windows);
 
         // VERIFY
         assertThat(testee.getName()).isEqualTo(version);

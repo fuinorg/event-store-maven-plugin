@@ -133,10 +133,17 @@ public final class Downloads {
             reader.close();
         }
 
-        for (final DownloadVersion version : versions) {
-            LOG.info("{}", version);
+        if (LOG.isInfoEnabled()) {
+            final StringBuilder sb = new StringBuilder();
+            for (final DownloadVersion version : versions) {
+                if (sb.length() > 0) {
+                    sb.append(", ");
+                }
+                sb.append(version);
+            }
+            LOG.info("Versions retrieved: {}", sb);
         }
-
+        
     }
 
     /**
