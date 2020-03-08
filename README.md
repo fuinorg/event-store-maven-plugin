@@ -60,7 +60,6 @@ If you want to use a fix event store version version you can use the `download-u
 		<execution>
 			<goals>
 				<goal>download</goal>
-				<goal>certificate</goal>
 				<goal>start</goal>
 				<goal>stop</goal>
 			</goals>
@@ -84,7 +83,6 @@ In case this happens again you can quickly use the `version-url` configuration p
 		<execution>
 			<goals>
 				<goal>download</goal>
-				<goal>certificate</goal>
 				<goal>start</goal>
 				<goal>stop</goal>
 			</goals>
