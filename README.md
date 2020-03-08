@@ -25,6 +25,8 @@ Just add the plugin to your Maven POM:
 	</executions>
     <!-- The default is '--mem-db=TRUE' if you don't include the configuration -->
     <configuration>
+    	<!-- Selects the correct OS sub type by name for example 'Ubuntu 18' vs 'Ubuntu 16' -->
+        <download-os-qualifier>Ubuntu 18</download-os-qualifier>
     	<!-- Creates a self-signed X509 certificate -->
     	<certificate-file>${project.build.directory}/domain.p12</certificate-file>
     	<!-- Start the event store in-memory with some parameters -->
