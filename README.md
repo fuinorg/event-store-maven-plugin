@@ -12,7 +12,7 @@ Just add the plugin to your Maven POM:
 <plugin>	
 	<groupId>org.fuin.esmp</groupId>
 	<artifactId>es-maven-plugin</artifactId>
-	<version>0.5.0</version>
+	<version>0.5.1</version>
 	<executions>
 		<execution>
 			<goals>
@@ -23,13 +23,13 @@ Just add the plugin to your Maven POM:
 			</goals>
 		</execution>
 	</executions>
-    <!-- The default argument is '-MemDb' if you don't include the following configuration -->
+    <!-- The default is '--mem-db=TRUE' if you don't include the configuration -->
     <configuration>
     	<!-- Creates a self-signed X509 certificate -->
     	<certificate-file>${project.build.directory}/domain.p12</certificate-file>
     	<!-- Start the event store in-memory with some parameters -->
         <arguments>			         
-            <argument>--mem-db=TRUE</argument>
+            <argument>--mem-db=FALSE</argument>
             <argument>--stats-period-sec=3000</argument>
             <argument>--ext-tcp-port=7773</argument>
             <argument>--ext-secure-tcp-port=7779</argument>
@@ -48,6 +48,53 @@ Remember to name your test class according to [Maven Failsafe Plugin](http://mav
 
 To execute your integration test use:
 ```mvn clean verify``` or ```mvn verify```
+
+### Using a certain event store version
+If you want to use a fix event store version version you can use the `download-url` configuration property to set it in the plugin.
+```xml
+<plugin>	
+	<groupId>org.fuin.esmp</groupId>
+	<artifactId>es-maven-plugin</artifactId>
+	<version>0.5.1</version>
+	<executions>
+		<execution>
+			<goals>
+				<goal>download</goal>
+				<goal>certificate</goal>
+				<goal>start</goal>
+				<goal>stop</goal>
+			</goals>
+		</execution>
+	</executions>
+    <configuration>
+        <download-url>https://eventstore.org/downloads/ubuntu/EventStore-OSS-Linux-Ubuntu-18.04-v5.0.6.tar.gz</download-url>
+    </configuration>
+</plugin>
+```
+
+### Changing the location of the event store version JSON file
+In the past the Event Store team moved the JSON file that contains download information for event store versions to another location.
+In case this happens again you can quickly use the `version-url` configuration property to change it in the plugin.
+```xml
+<plugin>	
+	<groupId>org.fuin.esmp</groupId>
+	<artifactId>es-maven-plugin</artifactId>
+	<version>0.5.1</version>
+	<executions>
+		<execution>
+			<goals>
+				<goal>download</goal>
+				<goal>certificate</goal>
+				<goal>start</goal>
+				<goal>stop</goal>
+			</goals>
+		</execution>
+	</executions>
+    <configuration>
+        <version-url>https://raw.githubusercontent.com/EventStore/eventstore.org/master/_data/downloads.json</version-url>
+    </configuration>
+</plugin>
+```
 
 ### Snapshots
 
