@@ -125,10 +125,10 @@ public final class DownloadVersion implements Comparable<DownloadVersion> {
     /**
      * Determines if this version is a release.
      * 
-     * @return {@code true} if the version contains no "-rc" string.
+     * @return {@code true} if the version contains no "-rc" and no "preview" string.
      */
     public boolean isRelease() {
-        return !name.contains("-rc");
+        return !name.contains("-rc") && !name.contains("preview");
     }
 
     
