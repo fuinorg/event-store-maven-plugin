@@ -45,7 +45,7 @@ public abstract class AbstractEventStoreMojo extends AbstractMojo {
     private static final String PID_FILE_NAME = "event-store-pid";
 
     /** URL of the JSON file with available event store versions. */
-    public static final String VERSION_URL = "https://eventstore.org/downloads/downloads.json";
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/EventStore/eventstore.org/master/_data/downloads.json";
 
     /**
      * URl of the version JSON file.
